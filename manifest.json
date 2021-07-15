@@ -1,0 +1,23 @@
+{
+   "id": "export-license",
+   "title": "Export License Terms",
+   "subtitle": "Export electronic license terms to a file with option to store as digital inventory",
+   "author": "Ex Libris",
+   "description": "Supports the creation of an Excel spreadsheet from a license, including terms and portfolios. Supports creating new digital inventory with created file.",
+   "icon": {
+      "type": "font",
+      "value": "fa fa-file-archive-o"
+   },
+   "entities": [
+      "LICENSE"
+   ],
+   "contentSecurity": {
+      "sandbox": {
+         "downloads": true
+      },
+      "connectSrc": [
+         "https://*.amazonaws.com",
+         "https://*.alma.exlibrisgroup.com"
+      ]
+   }
+}

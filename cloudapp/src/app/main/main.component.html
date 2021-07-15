@@ -1,0 +1,21 @@
+<div class="eca-actions">
+  <button mat-flat-button color="secondary" (click)="clear()" [disabled]="!selectedEntity">{{ 'CLEAR' | translate }}</button>
+  <button mat-flat-button color="primary" (click)="next()" [disabled]="!selectedEntity">{{ 'NEXT' | translate }}</button>
+</div>
+<ng-container 
+  *ngIf="entityCount > 0; then entities; else noentities"
+  ></ng-container>
+<ng-template #noentities>
+  <p translate>MAIN.NO_ENTITIES</p>
+</ng-template>
+<ng-template #entities>
+  <p translate>MAIN.SELECT_LICENSE</p>
+</ng-template>
+<eca-select-entity
+  [(selected)]="selectedEntity"
+  (count)="entityCount=$event"
+  [entityTypes]="['LICENSE']"
+></eca-select-entity>
+<div class="loading-shade" *ngIf="loading">
+  <mat-spinner diameter="50"></mat-spinner>
+</div>

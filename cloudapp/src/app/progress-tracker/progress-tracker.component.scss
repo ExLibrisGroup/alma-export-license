@@ -1,0 +1,10 @@
+li.done:before {
+  content: '✓ ';
+  color: green;
+}
+ul {
+  list-style: none;
+}
+li.done span.dots {
+  display: none;
+}

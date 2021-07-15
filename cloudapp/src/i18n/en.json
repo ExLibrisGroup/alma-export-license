@@ -1,0 +1,50 @@
+{
+  "CLEAR": "Clear",
+  "NEXT": "Next",
+  "BACK": "Back",
+  "ERROR": "An unexpected error occurred.",
+  "MAIN": {
+    "NO_ENTITIES": "Navigate to license records to continue",
+    "SELECT_LICENSE": "Select a license to continue"
+  },
+  "DETAILS": {
+    "COLLECTION": "Collection",
+    "SELECT": "Select collection",
+    "DOWNLOAD": "Download Excel",
+    "DIGITAL": "Create digital"
+  },
+  "COLLECTION_PICKER": {
+    "TITLE": "Select a collection"
+  },
+  "EXCEL": {
+    "HEADERS": {
+      "TERM_NAME": "Term",
+      "TERM_VALUE": "Value",
+      "RESOURCE": "Title",
+      "RESOURCE_TYPE": "Type"
+    },
+    "TERMS": "Terms",
+    "PORTFOLIOS": "Portfolios"
+  },
+  "DIGITAL": {
+    "COMPLETE": "Complete",
+    "MESSAGE": "The license has been successfully exported and ingested into the \"{{collection}}\" collection of the repository.",
+    "LINK": "Go to file",
+    "EXISTING_DIALOG": {
+      "TITLE": "Existing record found",
+      "TEXT": "A record with this title has been found in this collection. Do you wish to create a new record anyway?",
+      "OK": "Yes, create new record",
+      "CANCEL": "No"
+    },
+    "EXISTING_ERROR": "Record already exists",
+    "PROGRESS": {
+      "SEARCH_EXISTING": "Searching for existing records",
+      "RETRIEVING_LICENSE": "Retrieving license",
+      "UPLOADING": "Uploading file",
+      "CREATING_BIB": "Creating BIB",
+      "ADD_BIB_TO_COLLECTION": "Adding BIB to Collection",
+      "CREATING_REPRESENTATION": "Creating Representation",
+      "ADDING_FILE_TO_REPRESENTATION": "Adding file to representation"
+    }
+  }
+}

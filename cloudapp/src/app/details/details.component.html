@@ -1,0 +1,17 @@
+<div class="eca-actions">
+  <button mat-flat-button color="secondary" routerLink="">{{ 'BACK' | translate }}</button>
+  <button mat-flat-button color="secondary" (click)="download()" [disabled]="!data.licenseCode">{{ 'DETAILS.DOWNLOAD' | translate }}</button>
+  <button mat-flat-button color="primary" routerLink="/digital" [disabled]="!data.licenseCode">{{ 'DETAILS.DIGITAL' | translate }}</button>
+</div>
+<mat-card>
+  <mat-card-header>
+    <mat-card-title translate>DETAILS.COLLECTION</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <span>{{ data.selectedCollection?.fullname }}</span> 
+    <i class="uxf-icon uxf-pencil eca-button" (click)="selectCollection()" attr.aria-label="{{'DETAILS.SELECT'|translate}}" title="{{'DETAILS.SELECT'|translate}}"></i>
+  </mat-card-content>
+</mat-card>
+<div class="loading-shade" *ngIf="loading">
+  <mat-spinner diameter="50"></mat-spinner>
+</div>

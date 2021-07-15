@@ -1,0 +1,19 @@
+<div class="eca-actions">
+  <button mat-flat-button color="secondary" [disabled]="loading" routerLink="/details">{{ 'BACK' | translate }}</button>
+  <button mat-flat-button color="primary" routerLink="/" [disabled]="loading">{{ 'OK' | translate }}</button>
+</div>
+<div *ngIf="loading">
+  <h2>Processing</h2>
+  <app-progress-tracker
+    [steps]="steps"
+    translationPrefix="DIGITAL.PROGRESS."
+  ></app-progress-tracker>
+</div>
+<div *ngIf="delivery_url">
+  <h2 translate>DIGITAL.COMPLETE</h2>
+  <p translate [translateParams]="{collection: data.selectedCollection?.fullname}">DIGITAL.MESSAGE</p>
+  <a mat-raised-button [href]="delivery_url" target="_blank">{{'DIGITAL.LINK' | translate}} <i class="uxf-icon uxf-external-link" aria-hidden="true"></i></a>
+</div>
+<div>
+  <mat-progress-bar *ngIf="file?.inProgress" [value]="file.progress" color="accent"></mat-progress-bar>  
+</div>
