@@ -5,7 +5,7 @@ import { AlmaService } from '../services/alma.service';
 import { DataService } from '../services/data.service';
 import { UploadFile, UploadService } from '../services/upload.service';
 import * as XLSX from 'xlsx';
-import { from, of } from 'rxjs';
+import { from, Observable, of } from 'rxjs';
 import { AlertService } from '@exlibris/exl-cloudapp-angular-lib';
 import { s2ab, selectSingleNode } from '../utils';
 import { ProgressTrackerComponent } from '../progress-tracker/progress-tracker.component';
@@ -22,6 +22,7 @@ const EXCEL_MIME_TYPE = 'application/vnd.openxmlformats-officedocument.spreadshe
 export class DigitalComponent implements OnInit {
   file: UploadFile;
   license: Alma.License;
+  key: string;
   loading = false;
   progress = 0;
   delivery_url: string;
@@ -54,31 +55,18 @@ export class DigitalComponent implements OnInit {
   process() {
     this.loading = true;
     this.changeDetectorRef.detectChanges(); // required for ViewChild in ngIf?
-    let key: string;
-    this.progressTracker.setProgress('RETRIEVING_LICENSE');
-    this.alma.getLicense(this.data.licenseCode)
+    this.getLicense()
     .pipe(
-      tap(license => this.license = license),
-      tap(() => this.progressTracker.setProgress('SEARCH_EXISTING')),
       switchMap(license => this.searchExisting(license)),
-      tap(result => {
-        if (!result) throw new Error(this.translate.instant('DIGITAL.EXISTING_ERROR'))
-      }),
-      tap(() => this.progressTracker.setProgress('UPLOADING')),
-      switchMap(() => from(this.upload()).pipe(tap(result => key = result))),
-      tap(() => this.progressTracker.setProgress('CREATING_BIB')),
-      switchMap(() => this.alma.createBib(this.license.name)),
-      tap(() => this.progressTracker.setProgress('ADD_BIB_TO_COLLECTION')),
-      switchMap(bib => this.alma.addBibToCollection(bib.mms_id, this.data.selectedCollection.id)),
-      tap(() => this.progressTracker.setProgress('CREATING_REPRESENTATION')),
-      switchMap(bib => this.alma.createRepresentation(bib.mms_id)),          
-      tap(() => this.progressTracker.setProgress('ADDING_FILE_TO_REPRESENTATION')),
-      switchMap(representation => this.alma.addFileToRepresentation(representation, key)),
-      tap(() => this.progressTracker.complete()),
-      finalize(() => null),
+      switchMap(() => this.upload().pipe(tap(result => this.key = result))),
+      switchMap(() => this.createBib()),
+      switchMap(bib => this.addBibToCollection(bib)),
+      switchMap(bib => this.createRepresentation(bib)),
+      switchMap(representation => this.addFileToRepresentation(representation)),
     )
     .subscribe({
       next: (representation: Alma.Representation) => {
+        this.progressTracker.complete();
         setTimeout(() => {
           this.loading = false;
           this.delivery_url = representation.delivery_url;
@@ -91,14 +79,42 @@ export class DigitalComponent implements OnInit {
     });
   }
 
+  createBib() {
+    this.progressTracker.setProgress('CREATING_BIB');
+    return this.alma.createBib(this.license.name);
+  }
+
+  addBibToCollection(bib: Alma.Bib) {
+    this.progressTracker.setProgress('ADD_BIB_TO_COLLECTION');
+    return this.alma.addBibToCollection(bib.mms_id, this.data.selectedCollection.id)
+  }
+
+  createRepresentation(bib: Alma.Bib) {
+    this.progressTracker.setProgress('CREATING_REPRESENTATION');
+    return this.alma.createRepresentation(bib.mms_id);
+  }
+
+  addFileToRepresentation(rep: Alma.Representation) {
+    this.progressTracker.setProgress('ADDING_FILE_TO_REPRESENTATION');
+    return this.alma.addFileToRepresentation(rep, this.key)
+  }
+
+  getLicense() {
+    this.progressTracker.setProgress('RETRIEVING_LICENSE');
+    return this.alma.getLicense(this.data.licenseCode)
+    .pipe(
+      tap(license => this.license = license),
+    );
+  }
+
   searchExisting(license: Alma.License) {
-    let q = `alma.mms_memberOfDeep=${this.data.selectedCollection.id} and alma.title=${license.name}`
+    this.progressTracker.setProgress('SEARCH_EXISTING');
+    let q = `alma.mms_memberOfDeep=${this.data.selectedCollection.id} and alma.title="${license.name}"`
     return this.alma.search(q)
     .pipe(
       map(result => {
         const doc = new DOMParser().parseFromString(result, "text/xml");
         let numberOfRecords = selectSingleNode(doc, `/default:searchRetrieveResponse/default:numberOfRecords`);
-        console.log('numberofrexords', numberOfRecords);
         return numberOfRecords;
       }),
       switchMap(result => parseInt(result) > 0 ?
@@ -109,11 +125,15 @@ export class DigitalComponent implements OnInit {
             cancel: 'DIGITAL.EXISTING_DIALOG.CANCEL'
           }) :
           of(true)
-      )
+      ),
+      tap(result => {
+        if (!result) throw new Error(this.translate.instant('DIGITAL.EXISTING_ERROR'))
+      })
     )
   }
 
-  upload(): Promise<string> {
+  upload(): Observable<string> {
+    this.progressTracker.setProgress('UPLOADING')
     const wb = this.data.buildExcel(this.license);
     const out = XLSX.write(wb, { bookType:'xlsx',  type: 'binary' });
     this.file = {
@@ -125,7 +145,8 @@ export class DigitalComponent implements OnInit {
       ),
       progress: 0
     }
-    return new Promise((resolve, reject) => {
+    /* Must subscribe to get progress events */
+    const promise = new Promise<string>((resolve, reject) => {
       this.uploadService.upload(this.file)
       .subscribe({
         next: (event: any) => {  
@@ -134,6 +155,7 @@ export class DigitalComponent implements OnInit {
         error: err => reject(err),
       });
     })
+    return from(promise);
   }
 
 }

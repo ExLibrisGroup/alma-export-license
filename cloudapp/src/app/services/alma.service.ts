@@ -96,13 +96,12 @@ export class AlmaService {
         config.digital.ingest_form = {
           acl: "public-read",
           success_action_status: "201",
-          policy: "eyJleHBpcmF0aW9uIjogIjIwMjEtMDctMTVUMTY6NTU6MDlaIiwiY29uZGl0aW9ucyI6IFt7ImJ1Y2tldCI6ICJuYS10ZXN0LXN0MDEuZXh0LmV4bGlicmlzZ3JvdXAuY29tIn0sIFsic3RhcnRzLXdpdGgiLCAiJGtleSIsICJUUl9JTlRFR1JBVElPTl9JTlNUL3VwbG9hZC8iXSx7ImFjbCI6ICJwdWJsaWMtcmVhZCJ9LHsic3VjY2Vzc19hY3Rpb25fc3RhdHVzIjogIjIwMSJ9LFsic3RhcnRzLXdpdGgiLCAiJENvbnRlbnQtTUQ1IiwgIiJdLFsic3RhcnRzLXdpdGgiLCAiJENvbnRlbnQtVHlwZSIsICIiXSx7IngtYW16LWNyZWRlbnRpYWwiOiAiQUtJQUpONk5QTU5HSkFMUFBXQVEvMjAyMTA3MTQvdXMtZWFzdC0xL3MzL2F3czRfcmVxdWVzdCJ9LHsieC1hbXotYWxnb3JpdGhtIjogIkFXUzQtSE1BQy1TSEEyNTYifSx7IngtYW16LWRhdGUiOiAiMjAyMTA3MTRUMDAwMDAwWiIgfV19",
+          policy: "eyJleHBpcmF0aW9uIjogIjIwMjEtMDctMjBUMDY6NDk6MTZaIiwiY29uZGl0aW9ucyI6IFt7ImJ1Y2tldCI6ICJuYS10ZXN0LXN0MDEuZXh0LmV4bGlicmlzZ3JvdXAuY29tIn0sIFsic3RhcnRzLXdpdGgiLCAiJGtleSIsICJUUl9JTlRFR1JBVElPTl9JTlNUL3VwbG9hZC8iXSx7ImFjbCI6ICJwdWJsaWMtcmVhZCJ9LHsic3VjY2Vzc19hY3Rpb25fc3RhdHVzIjogIjIwMSJ9LFsic3RhcnRzLXdpdGgiLCAiJENvbnRlbnQtTUQ1IiwgIiJdLFsic3RhcnRzLXdpdGgiLCAiJENvbnRlbnQtVHlwZSIsICIiXSx7IngtYW16LWNyZWRlbnRpYWwiOiAiQUtJQUpONk5QTU5HSkFMUFBXQVEvMjAyMTA3MTkvdXMtZWFzdC0xL3MzL2F3czRfcmVxdWVzdCJ9LHsieC1hbXotYWxnb3JpdGhtIjogIkFXUzQtSE1BQy1TSEEyNTYifSx7IngtYW16LWRhdGUiOiAiMjAyMTA3MTlUMDAwMDAwWiIgfV19",
           "X-Amz-Algorithm": "AWS4-HMAC-SHA256",
-          "X-Amz-Credential": "AKIAJN6NPMNGJALPPWAQ/20210714/us-east-1/s3/aws4_request",
-          "X-Amz-Signature": "41d5b27f77b02f3104cb8bc90087cbfaad689442d773d7bf6bcde4901fa552ab",
-          "X-Amz-Date": "20210714T000000Z",
+          "X-Amz-Credential": "AKIAJN6NPMNGJALPPWAQ/20210719/us-east-1/s3/aws4_request",
+          "X-Amz-Signature": "1b7d6934b49ccf1c1b2b3d44139a2473363d2c9085dc80d3a839b5fb70b5869b",
+          "X-Amz-Date": "20210719T000000Z",
         }
-        console.log('config', config)
         return config;
       })
     );

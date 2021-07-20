@@ -46,6 +46,7 @@ export class CollectionPickerDialog extends PromptDialog implements OnInit {
   }
 
   openSelectedNode() {
+    if (!this.selected) return;
     this.openNode(this.selected);
     setTimeout(() => {
       const element = document.querySelector('.selected');

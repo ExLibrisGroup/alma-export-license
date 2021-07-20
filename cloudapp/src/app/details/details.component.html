@@ -1,7 +1,7 @@
 <div class="eca-actions">
   <button mat-flat-button color="secondary" routerLink="">{{ 'BACK' | translate }}</button>
   <button mat-flat-button color="secondary" (click)="download()" [disabled]="!data.licenseCode">{{ 'DETAILS.DOWNLOAD' | translate }}</button>
-  <button mat-flat-button color="primary" routerLink="/digital" [disabled]="!data.licenseCode">{{ 'DETAILS.DIGITAL' | translate }}</button>
+  <button mat-flat-button color="primary" routerLink="/digital" [disabled]="!data.licenseCode || !data.selectedCollection">{{ 'DETAILS.DIGITAL' | translate }}</button>
 </div>
 <mat-card>
   <mat-card-header>
