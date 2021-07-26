@@ -90,21 +90,7 @@ export class AlmaService {
   } 
 
   getGeneralConfiguration() {
-    return this.rest.call<Alma.GeneralConfig>('/conf/general')
-    .pipe(
-      map(config => {
-        config.digital.ingest_form = {
-          acl: "public-read",
-          success_action_status: "201",
-          policy: "eyJleHBpcmF0aW9uIjogIjIwMjEtMDctMjBUMDY6NDk6MTZaIiwiY29uZGl0aW9ucyI6IFt7ImJ1Y2tldCI6ICJuYS10ZXN0LXN0MDEuZXh0LmV4bGlicmlzZ3JvdXAuY29tIn0sIFsic3RhcnRzLXdpdGgiLCAiJGtleSIsICJUUl9JTlRFR1JBVElPTl9JTlNUL3VwbG9hZC8iXSx7ImFjbCI6ICJwdWJsaWMtcmVhZCJ9LHsic3VjY2Vzc19hY3Rpb25fc3RhdHVzIjogIjIwMSJ9LFsic3RhcnRzLXdpdGgiLCAiJENvbnRlbnQtTUQ1IiwgIiJdLFsic3RhcnRzLXdpdGgiLCAiJENvbnRlbnQtVHlwZSIsICIiXSx7IngtYW16LWNyZWRlbnRpYWwiOiAiQUtJQUpONk5QTU5HSkFMUFBXQVEvMjAyMTA3MTkvdXMtZWFzdC0xL3MzL2F3czRfcmVxdWVzdCJ9LHsieC1hbXotYWxnb3JpdGhtIjogIkFXUzQtSE1BQy1TSEEyNTYifSx7IngtYW16LWRhdGUiOiAiMjAyMTA3MTlUMDAwMDAwWiIgfV19",
-          "X-Amz-Algorithm": "AWS4-HMAC-SHA256",
-          "X-Amz-Credential": "AKIAJN6NPMNGJALPPWAQ/20210719/us-east-1/s3/aws4_request",
-          "X-Amz-Signature": "1b7d6934b49ccf1c1b2b3d44139a2473363d2c9085dc80d3a839b5fb70b5869b",
-          "X-Amz-Date": "20210719T000000Z",
-        }
-        return config;
-      })
-    );
+    return this.rest.call<Alma.GeneralConfig>('/conf/general?expand=ingest_form')
   }
 
   search(q: string) {

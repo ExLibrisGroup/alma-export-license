@@ -73,9 +73,9 @@ export class UploadService {
   private buildForm(file: UploadFile, config: Alma.GeneralConfig) {
     const formData = new FormData();   
     const key = `${config.institution.value}/upload/export-license/${uuidv4()}/\${filename}`
-    formData.append('key', key); 
-    formData.append('Content-Type', file.data.type);
-    Object.entries(config.digital.ingest_form).forEach(([key, val]) => formData.append(key, val))
+    formData.set('key', key); 
+    formData.set('Content-Type', file.data.type);
+    Object.entries(config.digital.ingest_form).forEach(([key, val]) => formData.set(key, val));
     return from(this.calculateMD5(file)).pipe(
       map(result => {
         formData.append('Content-MD5', result);

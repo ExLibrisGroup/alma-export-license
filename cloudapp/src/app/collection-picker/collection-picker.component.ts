@@ -50,7 +50,7 @@ export class CollectionPickerDialog extends PromptDialog implements OnInit {
     this.openNode(this.selected);
     setTimeout(() => {
       const element = document.querySelector('.selected');
-      if (element) element.scrollIntoView({ behavior: 'smooth' });
+      if (element) element.scrollIntoView();
     })
   }
 
