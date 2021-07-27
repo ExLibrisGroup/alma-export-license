@@ -1,11 +1,11 @@
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
-import { finalize, map, switchMap, tap } from 'rxjs/operators';
+import { map, switchMap, tap } from 'rxjs/operators';
 import { Alma } from '../models/alma';
 import { AlmaService } from '../services/alma.service';
 import { DataService } from '../services/data.service';
 import { UploadFile, UploadService } from '../services/upload.service';
 import * as XLSX from 'xlsx';
-import { from, Observable, of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { AlertService } from '@exlibris/exl-cloudapp-angular-lib';
 import { s2ab, selectSingleNode } from '../utils';
 import { ProgressTrackerComponent } from '../progress-tracker/progress-tracker.component';
@@ -110,6 +110,7 @@ export class DigitalComponent implements OnInit {
   searchExisting(license: Alma.License) {
     this.progressTracker.setProgress('SEARCH_EXISTING');
     let q = `alma.mms_memberOfDeep=${this.data.selectedCollection.id} and alma.title="${license.name}"`
+    return of(true);
     return this.alma.search(q)
     .pipe(
       map(result => {
@@ -145,17 +146,7 @@ export class DigitalComponent implements OnInit {
       ),
       progress: 0
     }
-    /* Must subscribe to get progress events */
-    const promise = new Promise<string>((resolve, reject) => {
-      this.uploadService.upload(this.file)
-      .subscribe({
-        next: (event: any) => {  
-          if (event) resolve(event)
-        },
-        error: err => reject(err),
-      });
-    })
-    return from(promise);
+   return this.uploadService.upload(this.file);
   }
 
 }

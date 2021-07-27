@@ -1,7 +1,7 @@
 import { HttpClient, HttpErrorResponse, HttpEventType, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { from, of } from 'rxjs';
-import { catchError, map, switchMap, tap } from 'rxjs/operators';
+import { catchError, map, skipWhile, switchMap, tap } from 'rxjs/operators';
 import { Alma } from '../models/alma';
 import { AlmaService } from './alma.service';
 import { v4 as uuidv4 } from 'uuid';
@@ -55,13 +55,15 @@ export class UploadService {
               file.inProgress = false;
               const doc = new DOMParser().parseFromString(event.body, "application/xml");
               let key = selectSingleNode(doc, `/PostResponse/Key`);
+              if (!key) throw new Error('No key found');
               return key;
             } catch(e) {
               console.error('Error extracting key', e)
-              return '';
+              throw e;
             }
         }  
-      }),  
+      }),
+      skipWhile(key => !key),
       catchError((error: HttpErrorResponse) => {  
         file.inProgress = false;  
         console.error(`Upload failed: ${error.message}`);
