@@ -51,18 +51,14 @@ export class UploadService {
             file.progress = Math.round(event.loaded * 100 / event.total);  
             break;  
           case HttpEventType.Response:  
-            try {
-              file.inProgress = false;
-              const doc = new DOMParser().parseFromString(event.body, "application/xml");
-              let key = selectSingleNode(doc, `/PostResponse/Key`);
-              if (!key) throw new Error('No key found');
-              return key;
-            } catch(e) {
-              console.error('Error extracting key', e)
-              throw e;
-            }
+            file.inProgress = false;
+            const doc = new DOMParser().parseFromString(event.body, "application/xml");
+            let key = selectSingleNode(doc, `/PostResponse/Key`);
+            if (!key) throw new Error('Key could not be extracted.');
+            return key;
         }  
       }),
+      /* Ignore progress events */
       skipWhile(key => !key),
       catchError((error: HttpErrorResponse) => {  
         file.inProgress = false;  

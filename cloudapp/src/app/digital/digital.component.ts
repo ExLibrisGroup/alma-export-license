@@ -110,7 +110,6 @@ export class DigitalComponent implements OnInit {
   searchExisting(license: Alma.License) {
     this.progressTracker.setProgress('SEARCH_EXISTING');
     let q = `alma.mms_memberOfDeep=${this.data.selectedCollection.id} and alma.title="${license.name}"`
-    return of(true);
     return this.alma.search(q)
     .pipe(
       map(result => {
