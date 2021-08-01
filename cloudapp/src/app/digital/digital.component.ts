@@ -145,7 +145,7 @@ export class DigitalComponent implements OnInit {
       ),
       progress: 0
     }
-   return this.uploadService.upload(this.file);
+    return this.uploadService.upload(this.file);
   }
 
 }

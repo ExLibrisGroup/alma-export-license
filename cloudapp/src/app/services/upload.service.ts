@@ -1,4 +1,4 @@
-import { HttpClient, HttpErrorResponse, HttpEventType, HttpRequest } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpEvent, HttpEventType, HttpRequest, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { from, of } from 'rxjs';
 import { catchError, map, skipWhile, switchMap, tap } from 'rxjs/operators';
@@ -45,21 +45,18 @@ export class UploadService {
           }
         ))
       ),
-      map(event => {  
+      tap(event => {  
         switch (event.type) {  
           case HttpEventType.UploadProgress:  
             file.progress = Math.round(event.loaded * 100 / event.total);  
             break;  
           case HttpEventType.Response:  
             file.inProgress = false;
-            const doc = new DOMParser().parseFromString(event.body, "application/xml");
-            let key = selectSingleNode(doc, `/PostResponse/Key`);
-            if (!key) throw new Error('Key could not be extracted.');
-            return key;
         }  
       }),
       /* Ignore progress events */
-      skipWhile(key => !key),
+      skipWhile(event => event.type != HttpEventType.Response),
+      map(event => this.extractKey(event)),
       catchError((error: HttpErrorResponse) => {  
         file.inProgress = false;  
         console.error(`Upload failed: ${error.message}`);
@@ -99,6 +96,16 @@ export class UploadService {
       };
       reader.readAsArrayBuffer(file.data);
     })
+  }
+
+  private extractKey(event: HttpEvent<any>) {
+    let key: string;
+    if (event.type == HttpEventType.Response) {
+      const doc = new DOMParser().parseFromString((<HttpResponse<any>>event).body, "application/xml");
+      key = selectSingleNode(doc, `/PostResponse/Key`);
+    }
+    if (!key) throw new Error('Key could not be extracted.');
+    return key;
   }
 
   get generalConfig() {
