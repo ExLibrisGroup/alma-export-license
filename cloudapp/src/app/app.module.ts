@@ -13,15 +13,17 @@ import { DetailsComponent } from './details/details.component';
 import { CollectionPickerDialog } from './collection-picker/collection-picker.component';
 import { DigitalComponent } from './digital/digital.component';
 import { ProgressTrackerComponent } from './progress-tracker/progress-tracker.component';
+import { SettingsComponent } from './settings/settings.component';
 
 @NgModule({
-  declarations: [				
+  declarations: [					
     AppComponent,
     MainComponent,
     DetailsComponent,
     CollectionPickerDialog,
     DigitalComponent,
-    ProgressTrackerComponent
+    ProgressTrackerComponent,
+    SettingsComponent,
    ],
   imports: [
     MaterialModule,

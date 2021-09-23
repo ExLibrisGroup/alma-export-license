@@ -11,6 +11,9 @@
    "entities": [
       "LICENSE"
    ],
+   "pages": {
+      "settings": "/#/settings"
+   },
    "contentSecurity": {
       "sandbox": {
          "downloads": true

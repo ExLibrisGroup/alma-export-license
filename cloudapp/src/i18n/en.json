@@ -41,11 +41,16 @@
       "SEARCH_EXISTING": "Searching for existing records",
       "RETRIEVING_LICENSE": "Retrieving license",
       "RETRIEVING_ATTACHMENTS": "Retrieving license attachments",
-      "UPLOADING": "Uploading file",
+      "UPLOADING": "Uploading files",
       "CREATING_BIB": "Creating BIB",
       "ADD_BIB_TO_COLLECTION": "Adding BIB to Collection",
       "CREATING_REPRESENTATION": "Creating Representation",
       "ADDING_FILE_TO_REPRESENTATION": "Adding files to representation"
     }
+  },
+  "SETTINGS": {
+    "TITLE": "Settings",
+    "DIGITAL": "Digital",
+    "INCLUDE_ATTACHMENTS": "Include license attachments"
   }
 }

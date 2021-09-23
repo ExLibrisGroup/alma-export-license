@@ -11,6 +11,8 @@ import { dataToFile, s2ab, selectSingleNode } from '../utils';
 import { ProgressTrackerComponent } from '../progress-tracker/progress-tracker.component';
 import { DialogService } from 'eca-components';
 import { TranslateService } from '@ngx-translate/core';
+import { Settings } from '../models/settings';
+import { SettingsService } from '../services/settings.service';
 
 const EXCEL_MIME_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
 
@@ -24,7 +26,7 @@ export class DigitalComponent implements OnInit {
   license: Alma.License;
   keys: string[];
   loading = false;
-  progress = 0;
+  settings: Settings;
   delivery_url: string;
   @ViewChild(ProgressTrackerComponent, { static: false }) progressTracker: ProgressTrackerComponent;
 
@@ -47,6 +49,7 @@ export class DigitalComponent implements OnInit {
     private changeDetectorRef: ChangeDetectorRef,
     private dialog: DialogService,
     private translate: TranslateService,
+    private settingsService: SettingsService,
   ) { }
 
   ngOnInit() {
@@ -56,8 +59,9 @@ export class DigitalComponent implements OnInit {
   process() {
     this.loading = true;
     this.changeDetectorRef.detectChanges(); // required for ViewChild in ngIf?
-    this.getLicense()
+    this.getSettings()
     .pipe(
+      switchMap(() => this.getLicense()),
       switchMap(license => this.searchExisting(license)),
       switchMap(() => this.getAttachments()),
       switchMap(() => this.upload().pipe(tap(result => this.keys = result))),
@@ -79,6 +83,10 @@ export class DigitalComponent implements OnInit {
         this.alert.error(e.message || this.translate.instant('ERROR'));
       }
     });
+  }
+
+  getSettings() {
+    return this.settingsService.get().pipe(tap(settings => this.settings = settings));
   }
 
   createBib() {
@@ -111,6 +119,7 @@ export class DigitalComponent implements OnInit {
   }
 
   getAttachments() {
+    if (!this.settings.include_attachments) return of(false);
     this.progressTracker.setProgress('RETRIEVING_ATTACHMENTS')
     return this.alma.getLicenseAttachments(this.data.licenseCode)
     .pipe(

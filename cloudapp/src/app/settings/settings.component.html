@@ -1,0 +1,14 @@
+<div class="cloudapp-actions">
+  <button mat-flat-button color="secondary" [routerLink]="['/']">
+    <mat-icon>arrow_back_ios</mat-icon> {{ 'BACK' | translate}}
+  </button>
+  <!--<button mat-flat-button type="button" color="primary" (click)="save()">{{ 'Save' | translate}}</button>-->
+</div>
+<form *ngIf="form" [formGroup]="form">
+  <h1 translate>SETTINGS.TITLE</h1>
+  <h2 translate>SETTINGS.DIGITAL</h2>
+  <mat-slide-toggle labelPosition="before" formControlName="include_attachments">{{'SETTINGS.INCLUDE_ATTACHMENTS' | translate}}</mat-slide-toggle>  
+</form>
+<div class="loading-shade" *ngIf="saving">
+  <mat-progress-spinner mode="indeterminate" diameter="50"></mat-progress-spinner>
+</div>
