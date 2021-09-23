@@ -1,13 +1,13 @@
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
-import { map, switchMap, tap } from 'rxjs/operators';
+import { defaultIfEmpty, last, map, switchMap, tap, toArray } from 'rxjs/operators';
 import { Alma } from '../models/alma';
 import { AlmaService } from '../services/alma.service';
 import { DataService } from '../services/data.service';
 import { UploadFile, UploadService } from '../services/upload.service';
 import * as XLSX from 'xlsx';
-import { Observable, of } from 'rxjs';
+import { concat, forkJoin, Observable, of } from 'rxjs';
 import { AlertService } from '@exlibris/exl-cloudapp-angular-lib';
-import { s2ab, selectSingleNode } from '../utils';
+import { dataToFile, s2ab, selectSingleNode } from '../utils';
 import { ProgressTrackerComponent } from '../progress-tracker/progress-tracker.component';
 import { DialogService } from 'eca-components';
 import { TranslateService } from '@ngx-translate/core';
@@ -20,9 +20,9 @@ const EXCEL_MIME_TYPE = 'application/vnd.openxmlformats-officedocument.spreadshe
   styleUrls: ['./digital.component.scss']
 })
 export class DigitalComponent implements OnInit {
-  file: UploadFile;
+  files: UploadFile[] = [];
   license: Alma.License;
-  key: string;
+  keys: string[];
   loading = false;
   progress = 0;
   delivery_url: string;
@@ -31,6 +31,7 @@ export class DigitalComponent implements OnInit {
   steps = [
     'RETRIEVING_LICENSE',
     'SEARCH_EXISTING',
+    'RETRIEVING_ATTACHMENTS',
     'UPLOADING',
     'CREATING_BIB',
     'ADD_BIB_TO_COLLECTION',
@@ -58,11 +59,12 @@ export class DigitalComponent implements OnInit {
     this.getLicense()
     .pipe(
       switchMap(license => this.searchExisting(license)),
-      switchMap(() => this.upload().pipe(tap(result => this.key = result))),
+      switchMap(() => this.getAttachments()),
+      switchMap(() => this.upload().pipe(tap(result => this.keys = result))),
       switchMap(() => this.createBib()),
       switchMap(bib => this.addBibToCollection(bib)),
       switchMap(bib => this.createRepresentation(bib)),
-      switchMap(representation => this.addFileToRepresentation(representation)),
+      switchMap(representation => this.addFilesToRepresentation(representation)),
     )
     .subscribe({
       next: (representation: Alma.Representation) => {
@@ -94,9 +96,10 @@ export class DigitalComponent implements OnInit {
     return this.alma.createRepresentation(bib.mms_id);
   }
 
-  addFileToRepresentation(rep: Alma.Representation) {
+  addFilesToRepresentation(rep: Alma.Representation) {
     this.progressTracker.setProgress('ADDING_FILE_TO_REPRESENTATION');
-    return this.alma.addFileToRepresentation(rep, this.key)
+    const files = this.keys.map(key => this.alma.addFileToRepresentation(rep, key));
+    return concat(...files).pipe(last());
   }
 
   getLicense() {
@@ -107,6 +110,20 @@ export class DigitalComponent implements OnInit {
     );
   }
 
+  getAttachments() {
+    this.progressTracker.setProgress('RETRIEVING_ATTACHMENTS')
+    return this.alma.getLicenseAttachments(this.data.licenseCode)
+    .pipe(
+      map(attachments => attachments.attachment.map(attachment => this.alma.getLicenseAttachment(attachment.link))),
+      switchMap(attachments => forkJoin(attachments).pipe(defaultIfEmpty([]))),
+      tap(results => {
+        results.forEach(result => {
+          this.files.push(new UploadFile(dataToFile(result.content, result.file_name, result.type)))
+        })
+      }),
+    )
+  }
+
   searchExisting(license: Alma.License) {
     this.progressTracker.setProgress('SEARCH_EXISTING');
     let q = `alma.mms_memberOfDeep=${this.data.selectedCollection.id} and alma.title="${license.name}"`
@@ -114,10 +131,9 @@ export class DigitalComponent implements OnInit {
     .pipe(
       map(result => {
         const doc = new DOMParser().parseFromString(result, "text/xml");
-        let numberOfRecords = selectSingleNode(doc, `/default:searchRetrieveResponse/default:numberOfRecords`);
-        return numberOfRecords;
+        return parseInt(selectSingleNode(doc, `/default:searchRetrieveResponse/default:numberOfRecords`));
       }),
-      switchMap(result => parseInt(result) > 0 ?
+      switchMap(result => result > 0 ?
           this.dialog.confirm({
             title: 'DIGITAL.EXISTING_DIALOG.TITLE',
             text: 'DIGITAL.EXISTING_DIALOG.TEXT',
@@ -132,20 +148,17 @@ export class DigitalComponent implements OnInit {
     )
   }
 
-  upload(): Observable<string> {
+  upload(): Observable<string[]> {
     this.progressTracker.setProgress('UPLOADING')
     const wb = this.data.buildExcel(this.license);
     const out = XLSX.write(wb, { bookType:'xlsx',  type: 'binary' });
-    this.file = {
-      inProgress: false,
-      data: new File(
-        [s2ab(out)], 
-        `${this.license.code}.xlsx`, 
-        { type: EXCEL_MIME_TYPE }
-      ),
-      progress: 0
-    }
-    return this.uploadService.upload(this.file);
+    const file = new File(
+      [s2ab(out)], 
+      `${this.license.code}.xlsx`, 
+      { type: EXCEL_MIME_TYPE }
+    )
+    this.files.push(new UploadFile(file));
+    return this.uploadService.upload(this.files);
   }
 
 }

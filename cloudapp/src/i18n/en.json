@@ -40,11 +40,12 @@
     "PROGRESS": {
       "SEARCH_EXISTING": "Searching for existing records",
       "RETRIEVING_LICENSE": "Retrieving license",
+      "RETRIEVING_ATTACHMENTS": "Retrieving license attachments",
       "UPLOADING": "Uploading file",
       "CREATING_BIB": "Creating BIB",
       "ADD_BIB_TO_COLLECTION": "Adding BIB to Collection",
       "CREATING_REPRESENTATION": "Creating Representation",
-      "ADDING_FILE_TO_REPRESENTATION": "Adding file to representation"
+      "ADDING_FILE_TO_REPRESENTATION": "Adding files to representation"
     }
   }
 }

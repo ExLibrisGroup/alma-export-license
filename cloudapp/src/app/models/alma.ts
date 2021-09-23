@@ -20,6 +20,19 @@ export namespace Alma {
     resource: Resource[];
   }
 
+  export interface LicenseAttachments {
+    total_record_count: number;
+    attachment: LicenseAttachment[];
+  }
+
+  export interface LicenseAttachment {
+    id: string;
+    file_name: string;
+    content: string;
+    link: string;
+    type: string;
+  }
+
   export interface Resource {
     pid: string;
     name: string;

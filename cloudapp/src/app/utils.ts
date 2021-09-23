@@ -57,5 +57,24 @@
     return buf;    
   }
 
-export { select, selectSingleNode, s2ab }
+  /**
+   * Creates File object from data
+   * @param {string} contents Base64 encoded content
+   * @param {string} name File name
+   * @param {string} mime Mime tuype
+   * @returns File
+   */
+  const dataToFile = (contents: string, name: string, mime: string): File => {
+    let bstr = atob(contents), 
+      n = bstr.length, 
+      u8arr = new Uint8Array(n);
+          
+      while(n--){
+        u8arr[n] = bstr.charCodeAt(n);
+      }
+      
+      return new File([u8arr], name, { type: mime});
+  }
+
+export { select, selectSingleNode, s2ab, dataToFile }
 

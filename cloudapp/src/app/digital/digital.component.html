@@ -14,6 +14,9 @@
   <p translate [translateParams]="{collection: data.selectedCollection?.fullname}">DIGITAL.MESSAGE</p>
   <a mat-raised-button [href]="delivery_url" target="_blank">{{'DIGITAL.LINK' | translate}} <i class="uxf-icon uxf-external-link" aria-hidden="true"></i></a>
 </div>
-<div>
-  <mat-progress-bar *ngIf="file?.inProgress" [value]="file.progress" color="accent"></mat-progress-bar>  
+<div *ngFor="let file of files" class="file-progress">
+  <div *ngIf="file?.inProgress">
+    <mat-progress-bar [value]="file.progress" color="accent"></mat-progress-bar>
+    <div>{{file.data.name}}</div>
+  </div>
 </div>

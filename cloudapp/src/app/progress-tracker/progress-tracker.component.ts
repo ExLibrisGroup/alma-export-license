@@ -33,6 +33,7 @@ export class ProgressTrackerComponent implements OnInit {
   ngOnInit() { }
 
   setProgress (progress: string) {
+    if (!~this._steps.indexOf(progress)) throw new Error("Invalid progress step");
     if (this.timer) clearTimeout(this.timer);
     this.dots = '';
     this._progress = this._steps.indexOf(progress);

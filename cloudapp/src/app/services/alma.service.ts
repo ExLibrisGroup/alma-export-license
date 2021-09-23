@@ -41,6 +41,14 @@ export class AlmaService {
     return this.rest.call<Alma.License>(`/acq/licenses/${code}`)
   }
 
+  getLicenseAttachments(code: string) {
+    return this.rest.call<Alma.LicenseAttachments>(`/acq/licenses/${code}/attachments`);
+  }
+
+  getLicenseAttachment(url: string) {
+    return this.rest.call<Alma.LicenseAttachment>(url + '?expand=content');
+  }
+
   createBib(title: string) {
     const requestBody = `
       <bib>
