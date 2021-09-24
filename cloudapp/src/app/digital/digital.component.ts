@@ -125,12 +125,12 @@ export class DigitalComponent implements OnInit {
     .pipe(
       map(attachments => attachments.attachment.map(attachment => this.alma.getLicenseAttachment(attachment.link))),
       switchMap(attachments => forkJoin(attachments).pipe(defaultIfEmpty([]))),
-      tap(results => {
-        results.forEach(result => {
-          this.files.push(new UploadFile(dataToFile(result.content, result.file_name, result.type)))
-        })
-      }),
+      tap(results => results.forEach(result => this.files.push(this.attachmentToUploadFile(result)))),
     )
+  }
+
+  private attachmentToUploadFile(attachment: Alma.LicenseAttachment) {
+    return new UploadFile(dataToFile(attachment.content, attachment.file_name, attachment.type))
   }
 
   searchExisting(license: Alma.License) {
