@@ -119,7 +119,7 @@ export class DigitalComponent implements OnInit {
   }
 
   getAttachments() {
-    if (!this.settings.include_attachments) return of(false);
+    if (!this.settings.includeAttachments) return of(false);
     this.progressTracker.setProgress('RETRIEVING_ATTACHMENTS')
     return this.alma.getLicenseAttachments(this.data.licenseCode)
     .pipe(
@@ -158,7 +158,10 @@ export class DigitalComponent implements OnInit {
   }
 
   upload(): Observable<string[]> {
-    this.progressTracker.setProgress('UPLOADING')
+    this.progressTracker.setProgress('UPLOADING');
+    if (this.settings.licenseTerms != 'all') {
+      this.license.term = this.license.term.filter(t => this.settings.licenseTerms.includes(t.code.value))
+    }
     const wb = this.data.buildExcel(this.license);
     const out = XLSX.write(wb, { bookType:'xlsx',  type: 'binary' });
     const file = new File(

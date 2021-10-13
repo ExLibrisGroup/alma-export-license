@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { CloudAppEventsService, CloudAppRestService, HttpMethod, InitData } from '@exlibris/exl-cloudapp-angular-lib';
 import { map, switchMap } from 'rxjs/operators';
 import { Collection } from '../models/collection';
-import { Alma } from '../models/alma';
+import { Alma, sortCodeTable } from '../models/alma';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 
@@ -47,6 +47,11 @@ export class AlmaService {
 
   getLicenseAttachment(url: string) {
     return this.rest.call<Alma.LicenseAttachment>(url + '?expand=content');
+  }
+
+  getLicenseTerms() {
+    return this.rest.call<Alma.CodeTable>('/conf/code-tables/LicenseTerms')
+    .pipe(map(table => sortCodeTable(table)));
   }
 
   createBib(title: string) {

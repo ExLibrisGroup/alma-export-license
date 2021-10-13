@@ -51,6 +51,11 @@
   "SETTINGS": {
     "TITLE": "Settings",
     "DIGITAL": "Digital",
-    "INCLUDE_ATTACHMENTS": "Include license attachments"
+    "INCLUDE_ATTACHMENTS": "Include license attachments",
+    "LICENSE_TERMS": {
+      "TITLE": "License Terms",
+      "SELECTED": "Selected",
+      "ALL": "All"
+    }
   }
 }

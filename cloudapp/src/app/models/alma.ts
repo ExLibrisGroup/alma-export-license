@@ -75,4 +75,18 @@ export namespace Alma {
       link: string
     },
   }
+
+  export interface CodeTable {
+    row: CodeTableRow[]
+  }
+
+  export interface CodeTableRow {
+    code: string;
+    description: string;
+  }
+}
+
+export const sortCodeTable = (table: Alma.CodeTable) => {
+  table.row.sort((a, b) => a.description.localeCompare(b.description, undefined, {sensitivity: 'base'}))
+  return table;
 }

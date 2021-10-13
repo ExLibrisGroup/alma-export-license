@@ -5,7 +5,7 @@
   "license": "BSD-3-Clause",
   "private": true,
   "scripts": {
-    "start": "eca start"
+    "start": "eca start --disable-host-check"
   },
   "dependencies": {
     "@angular/animations": "~11.2.14",
@@ -19,8 +19,8 @@
     "@angular/platform-browser": "~11.2.14",
     "@angular/platform-browser-dynamic": "~11.2.14",
     "@angular/router": "~11.2.14",
-    "@exlibris/exl-cloudapp-angular-lib": "^1.4.0",
-    "@exlibris/exl-cloudapp-base": "^1.4.0",
+    "@exlibris/exl-cloudapp-angular-lib": "^1.4.1",
+    "@exlibris/exl-cloudapp-base": "^1.4.1",
     "@ngx-translate/core": "~13.0.0",
     "crypto-es": "^1.2.7",
     "eca-components": "^1.4.0",
