@@ -28,6 +28,7 @@ export class DigitalComponent implements OnInit {
   loading = false;
   settings: Settings;
   delivery_url: string;
+  mmsId: string;
   @ViewChild(ProgressTrackerComponent, { static: false }) progressTracker: ProgressTrackerComponent;
 
   steps = [
@@ -91,7 +92,7 @@ export class DigitalComponent implements OnInit {
 
   createBib() {
     this.progressTracker.setProgress('CREATING_BIB');
-    return this.alma.createBib(this.license.name);
+    return this.alma.createOrUpdateBibFromLicense(this.license, this.mmsId);
   }
 
   addBibToCollection(bib: Alma.Bib) {
@@ -135,14 +136,15 @@ export class DigitalComponent implements OnInit {
 
   searchExisting(license: Alma.License) {
     this.progressTracker.setProgress('SEARCH_EXISTING');
-    let q = `alma.mms_memberOfDeep=${this.data.selectedCollection.id} and alma.title="${license.name}"`
+    let q = `alma.identifier=${license.code}`;
     return this.alma.search(q)
     .pipe(
       map(result => {
         const doc = new DOMParser().parseFromString(result, "text/xml");
-        return parseInt(selectSingleNode(doc, `/default:searchRetrieveResponse/default:numberOfRecords`));
+        this.mmsId = selectSingleNode(doc, '/default:searchRetrieveResponse/default:records/default:record/default:recordIdentifier');
+        return this.mmsId;
       }),
-      switchMap(result => result > 0 ?
+      switchMap(result => !!result && this.settings.overwriteWarning ?
           this.dialog.confirm({
             title: 'DIGITAL.EXISTING_DIALOG.TITLE',
             text: 'DIGITAL.EXISTING_DIALOG.TEXT',

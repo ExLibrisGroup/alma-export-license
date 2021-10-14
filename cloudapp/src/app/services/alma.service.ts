@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { CloudAppEventsService, CloudAppRestService, HttpMethod, InitData } from '@exlibris/exl-cloudapp-angular-lib';
-import { map, switchMap } from 'rxjs/operators';
+import { catchError, defaultIfEmpty, map, switchMap } from 'rxjs/operators';
 import { Collection } from '../models/collection';
 import { Alma, sortCodeTable } from '../models/alma';
-import { Observable } from 'rxjs';
+import { forkJoin, Observable, of, throwError } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 
 export const STORE_COLLECTION = 'Collection';
@@ -54,19 +54,20 @@ export class AlmaService {
     .pipe(map(table => sortCodeTable(table)));
   }
 
-  createBib(title: string) {
+  createOrUpdateBibFromLicense(license: Alma.License, mmsId: string) {
     const requestBody = `
       <bib>
         <suppress_from_publishing>false</suppress_from_publishing>
         <record_format>dc</record_format>
         <record xmlns:dc="http://purl.org/dc/elements/1.1/">
-          <dc:title>${title}</dc:title>
+          <dc:title>${license.name}</dc:title>
+          <dc:identifier>${license.code}</dc:identifier>
         </record>
       </bib>
     `
     return this.rest.call<Alma.Bib>({
-      url: '/bibs',
-      method: HttpMethod.POST,
+      url: !mmsId ? '/bibs' : `/bibs/${mmsId}`,
+      method: !mmsId ? HttpMethod.POST : HttpMethod.PUT,
       headers: { "Content-Type": 'application/xml' },
       requestBody
     })
@@ -78,10 +79,21 @@ export class AlmaService {
       method: HttpMethod.POST,
       requestBody: { mms_id: mmsId }
     })
+    .pipe(
+      catchError(err => {
+        console.log('err', err);
+        return err.status == 404 
+          ? of({ mms_id: mmsId })
+          : throwError(err);
+      })
+    )
+    /* TODO: Handle if BIB already in collection - 701115*/
   }
 
   createRepresentation(mmsId: string) {
-    return this.events.getInitData().pipe(
+    return this.deleteRepresentations(mmsId)
+    .pipe(
+      switchMap(() => this.events.getInitData()),
       switchMap(initData => this.rest.call<Alma.Representation>({
         url: `/bibs/${mmsId}/representations`,
         method: HttpMethod.POST,
@@ -90,6 +102,21 @@ export class AlmaService {
           usage_type: { value: "PRESERVATION_MASTER" }
         }
       })),
+    )
+  }
+
+  deleteRepresentations(mmsId: string) {
+    return this.rest.call<Alma.Representations>(`/bibs/${mmsId}/representations`)
+    .pipe(
+      map(representations => 
+        (representations.representation || [])
+        .map(r => this.rest.call({
+          url: r.link,
+          method: HttpMethod.DELETE,
+          queryParams: { override: true }
+        }))
+      ),
+      switchMap(requests => forkJoin(requests).pipe(defaultIfEmpty([]))),
     )
   }
 
@@ -114,6 +141,6 @@ export class AlmaService {
   }
 
   private buildSearchUrl(q: string, initData: InitData) {
-   return `${initData.urls.alma}/view/sru/${initData.instCode}?version=1.2&operation=searchRetrieve&recordSchema=dc&query=${encodeURIComponent(q)}`;
+   return `${initData.urls.alma}view/sru/${initData.instCode}?version=1.2&operation=searchRetrieve&recordSchema=dc&query=${encodeURIComponent(q)}`;
   }
 }

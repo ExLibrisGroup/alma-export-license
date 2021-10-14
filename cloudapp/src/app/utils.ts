@@ -33,7 +33,7 @@
   const dom = (name: string, options: {parent?: Element | Node, text?: string, className?: string, 
     id?: string, attributes?: string[][]} = {}): Element => {
 
-    let ns = options.parent ? options.parent.namespaceURI : '';
+    let ns = (options.parent && options.parent instanceof Element) ? options.parent.namespaceURI : '';
     let element = document.createElementNS(ns, name);
     
     if (options.parent) options.parent.appendChild(element);

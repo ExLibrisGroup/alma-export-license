@@ -69,11 +69,16 @@ export namespace Alma {
 
   export interface Representation {
     id: string;
+    link: string;
     delivery_url: string;
     files: {
       total_record_count: number,
       link: string
     },
+  }
+
+  export interface Representations {
+    representation: Representation[];
   }
 
   export interface CodeTable {

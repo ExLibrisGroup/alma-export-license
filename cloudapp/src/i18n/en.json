@@ -32,8 +32,8 @@
     "LINK": "Go to file",
     "EXISTING_DIALOG": {
       "TITLE": "Existing record found",
-      "TEXT": "A record with this title has been found in this collection. Do you wish to create a new record anyway?",
-      "OK": "Yes, create new record",
+      "TEXT": "A record with this title has been found in this collection. Do you wish to overwrite the record?",
+      "OK": "Yes, overwrite record",
       "CANCEL": "No"
     },
     "EXISTING_ERROR": "Record already exists",
@@ -52,6 +52,7 @@
     "TITLE": "Settings",
     "DIGITAL": "Digital",
     "INCLUDE_ATTACHMENTS": "Include license attachments",
+    "OVERWRITE_WARNING": "Warn before overwriting",
     "LICENSE_TERMS": {
       "TITLE": "License Terms",
       "SELECTED": "Selected",

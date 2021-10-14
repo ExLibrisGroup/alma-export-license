@@ -8,6 +8,7 @@
   <h1 translate>SETTINGS.TITLE</h1>
   <h2 translate>SETTINGS.DIGITAL</h2>
   <mat-slide-toggle labelPosition="before" formControlName="includeAttachments">{{'SETTINGS.INCLUDE_ATTACHMENTS' | translate}}</mat-slide-toggle>  
+  <mat-slide-toggle labelPosition="before" formControlName="overwriteWarning">{{'SETTINGS.OVERWRITE_WARNING' | translate}}</mat-slide-toggle>  
   <h3 translate>SETTINGS.LICENSE_TERMS.TITLE</h3>
   <mat-button-toggle-group [(ngModel)]="allLicenseTerms" [ngModelOptions]="{standalone: true}">
     <mat-button-toggle [value]="true">{{ 'SETTINGS.LICENSE_TERMS.ALL' | translate }}</mat-button-toggle>

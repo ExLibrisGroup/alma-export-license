@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { CloudAppSettingsService } from '@exlibris/exl-cloudapp-angular-lib';
 import { Observable, of } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { Settings } from '../models/settings';
+import { merge } from 'lodash';
 
 @Injectable({
   providedIn: 'root'
@@ -21,6 +22,7 @@ export class SettingsService {
     } else {
       return this.settingsService.get()
         .pipe(
+          map(settings => merge(new Settings(), settings)),
           tap(settings => this._settings = settings)
         );
     }
