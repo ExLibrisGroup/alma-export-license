@@ -2,6 +2,7 @@
   "CLEAR": "Clear",
   "NEXT": "Next",
   "BACK": "Back",
+  "SAVE": "Save",
   "ERROR": "An unexpected error occurred.",
   "MAIN": {
     "NO_ENTITIES": "Navigate to license records to continue",
@@ -9,6 +10,8 @@
   },
   "DETAILS": {
     "COLLECTION": "Collection",
+    "COLLECTION_PATH": "Collection path",
+    "COLLETION_ROOT": "Root collection",
     "SELECT": "Select collection",
     "DOWNLOAD": "Download Excel",
     "DIGITAL": "Create digital"
@@ -28,7 +31,7 @@
   },
   "DIGITAL": {
     "COMPLETE": "Complete",
-    "MESSAGE": "The license has been successfully exported and ingested into the \"{{collection}}\" collection of the repository.",
+    "MESSAGE": "The license has been successfully exported and ingested into the repository.",
     "LINK": "Go to file",
     "EXISTING_DIALOG": {
       "TITLE": "Existing record found",
@@ -43,6 +46,7 @@
       "RETRIEVING_ATTACHMENTS": "Retrieving license attachments",
       "UPLOADING": "Uploading files",
       "CREATING_BIB": "Creating BIB",
+      "CREATING_COLLECTIONS": "Creating collection tree",
       "ADD_BIB_TO_COLLECTION": "Adding BIB to Collection",
       "CREATING_REPRESENTATION": "Creating Representation",
       "ADDING_FILE_TO_REPRESENTATION": "Adding files to representation"
@@ -53,10 +57,24 @@
     "DIGITAL": "Digital",
     "INCLUDE_ATTACHMENTS": "Include license attachments",
     "OVERWRITE_WARNING": "Warn before overwriting",
+    "DISCARD": "Discard changes?",
+    "DISCARD_OK": "Yes, discard changes",
     "LICENSE_TERMS": {
       "TITLE": "License Terms",
       "SELECTED": "Selected",
       "ALL": "All"
+    },
+    "COLLECTION_PATH": {
+      "TITLE": "Collection Path",
+      "DESCRIPTION": "Add fields you wish to appear in the collection path. The fields will be calculated as default values and can be changed before the digital representation is created.",
+      "OPTIONS": "Options",
+      "SELECTED": "Selected"
+    },
+    "COLLECTION_PATH_OPTIONS": {
+      "LICENSE_NAME": "License name",
+      "LICENSE_CODE": "License code",
+      "LICENSE_LICENSOR": "Vendor name",
+      "CURRENT_YEAR": "Current year"
     }
   }
 }

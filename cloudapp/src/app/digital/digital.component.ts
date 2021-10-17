@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
-import { defaultIfEmpty, last, map, switchMap, tap, toArray } from 'rxjs/operators';
+import { defaultIfEmpty, last, map, switchMap, tap } from 'rxjs/operators';
 import { Alma } from '../models/alma';
 import { AlmaService } from '../services/alma.service';
 import { DataService } from '../services/data.service';
@@ -36,6 +36,7 @@ export class DigitalComponent implements OnInit {
     'SEARCH_EXISTING',
     'RETRIEVING_ATTACHMENTS',
     'UPLOADING',
+    'CREATING_COLLECTIONS',
     'CREATING_BIB',
     'ADD_BIB_TO_COLLECTION',
     'CREATING_REPRESENTATION',
@@ -66,6 +67,7 @@ export class DigitalComponent implements OnInit {
       switchMap(license => this.searchExisting(license)),
       switchMap(() => this.getAttachments()),
       switchMap(() => this.upload().pipe(tap(result => this.keys = result))),
+      switchMap(() => this.createCollectionTree()),
       switchMap(() => this.createBib()),
       switchMap(bib => this.addBibToCollection(bib)),
       switchMap(bib => this.createRepresentation(bib)),
@@ -95,9 +97,19 @@ export class DigitalComponent implements OnInit {
     return this.alma.createOrUpdateBibFromLicense(this.license, this.mmsId);
   }
 
+  createCollectionTree() {
+    this.progressTracker.setProgress('CREATING_COLLECTIONS');
+    if (!this.data.collectionPath) {
+      this.data.collectionId = this.data.rootCollection.id;
+      return of(true);
+    }
+    return this.alma.createCollectionTree(this.data.rootCollection.id, this.data.collectionPath.split('/'))
+    .pipe(tap(collection => this.data.collectionId = collection.pid.value));
+  }
+
   addBibToCollection(bib: Alma.Bib) {
     this.progressTracker.setProgress('ADD_BIB_TO_COLLECTION');
-    return this.alma.addBibToCollection(bib.mms_id, this.data.selectedCollection.id)
+    return this.alma.addBibToCollection(bib.mms_id, this.data.collectionId)
   }
 
   createRepresentation(bib: Alma.Bib) {

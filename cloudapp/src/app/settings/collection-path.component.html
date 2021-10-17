@@ -1,0 +1,28 @@
+<div class="drag-drop-container">
+  <h4 translate>SETTINGS.COLLECTION_PATH.OPTIONS</h4>
+  <div
+    cdkDropList
+    #collectionPagthOptionsList="cdkDropList"
+    [cdkDropListData]="collectionPathOptions"
+    [cdkDropListConnectedTo]="[collectionPathList]"
+    class="drag-drop-list"
+    (cdkDropListDropped)="drop($event)">
+    <div class="drag-drop-box" *ngFor="let option of collectionPathOptions" cdkDrag>
+      {{'SETTINGS.COLLECTION_PATH_OPTIONS.' + option | translate}}
+    </div>
+  </div>
+</div>
+<div class="drag-drop-container">  
+  <h4 translate>SETTINGS.COLLECTION_PATH.SELECTED</h4>
+  <div
+    cdkDropList
+    #collectionPathList="cdkDropList"
+    [cdkDropListData]="collectionPath.value"
+    [cdkDropListConnectedTo]="[collectionPagthOptionsList]"
+    class="drag-drop-list"
+    (cdkDropListDropped)="drop($event)">
+    <div class="drag-drop-box" *ngFor="let path of collectionPath.value" cdkDrag>
+      {{'SETTINGS.COLLECTION_PATH_OPTIONS.' + path | translate}}
+    </div>
+  </div>
+</div>

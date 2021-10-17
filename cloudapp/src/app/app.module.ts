@@ -14,6 +14,7 @@ import { CollectionPickerDialog } from './collection-picker/collection-picker.co
 import { DigitalComponent } from './digital/digital.component';
 import { ProgressTrackerComponent } from './progress-tracker/progress-tracker.component';
 import { SettingsComponent } from './settings/settings.component';
+import { CollectionPathComponent } from './settings/collection-path.component';
 
 @NgModule({
   declarations: [					
@@ -24,6 +25,7 @@ import { SettingsComponent } from './settings/settings.component';
     DigitalComponent,
     ProgressTrackerComponent,
     SettingsComponent,
+    CollectionPathComponent,
    ],
   imports: [
     MaterialModule,

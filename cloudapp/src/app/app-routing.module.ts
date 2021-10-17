@@ -3,13 +3,13 @@ import { Routes, RouterModule } from '@angular/router';
 import { DetailsComponent } from './details/details.component';
 import { DigitalComponent } from './digital/digital.component';
 import { MainComponent } from './main/main.component';
-import { SettingsComponent } from './settings/settings.component';
+import { SettingsComponent, SettingsGuard } from './settings/settings.component';
 
 const routes: Routes = [
   { path: '', component: MainComponent },
   { path: 'details', component: DetailsComponent },
   { path: 'digital', component: DigitalComponent },
-  { path: 'settings', component: SettingsComponent },
+  { path: 'settings', component: SettingsComponent, canDeactivate: [SettingsGuard] },
 ];
 
 @NgModule({

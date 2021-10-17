@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { CloudAppEventsService, CloudAppRestService, HttpMethod, InitData } from '@exlibris/exl-cloudapp-angular-lib';
-import { catchError, defaultIfEmpty, map, switchMap } from 'rxjs/operators';
+import { catchError, defaultIfEmpty, expand, map, switchMap, last, take } from 'rxjs/operators';
 import { Collection } from '../models/collection';
-import { Alma, sortCodeTable } from '../models/alma';
+import { Alma, parseError, sortCodeTable } from '../models/alma';
 import { forkJoin, Observable, of, throwError } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 
@@ -73,6 +73,57 @@ export class AlmaService {
     })
   }
 
+  /**
+   * Create hierarchy of collections
+   */
+  createCollectionTree(root: string, path: string[]) {
+    path = path.filter(p => !!p);
+    let i = 0;
+    return this.createCollection(root, path[i])
+    .pipe(
+      expand(collection => this.createCollection(collection.pid.value, path[++i])),
+      take(path.length - 1),
+      last(),
+    )
+  }
+
+  /**
+   * Creates collection, or returns collection if name already exists
+   */
+  createCollection(parent: string, name: string) {
+    return this.getCollection(parent, 2)
+    .pipe(
+      switchMap(collection => {
+        const existingCollection = collection.collection && collection.collection.find(c => c.name == name);
+        return !!existingCollection ? of(existingCollection) : this._createCollection(parent, name);
+      })
+    )
+  }
+
+  private _createCollection(parent: string, name: string) {
+    return this.events.getInitData()
+    .pipe(
+      map(initData => {
+        const requestBody: Alma.Collection = {
+          pid: null,
+          parent_pid: { value: parent },
+          name,
+          library: { value: initData.user.currentlyAtLibCode },
+        }
+        return {
+          method: HttpMethod.POST,
+          requestBody,
+          url: '/bibs/collections'
+        }    
+      }),
+      switchMap(request => this.rest.call<Alma.Collection>(request)),
+    )
+  }
+
+  getCollection(pid: string, level: number = 1) {
+    return this.rest.call<Alma.Collection>(`/bibs/collections/${pid}?level=${level}`);
+  }
+
   addBibToCollection(mmsId: string, collectionId: string) {
     return this.rest.call<Alma.Bib>({
       url: `/bibs/collections/${collectionId}/bibs`,
@@ -81,13 +132,12 @@ export class AlmaService {
     })
     .pipe(
       catchError(err => {
-        console.log('err', err);
-        return err.status == 404 
+        const error = parseError(err);
+        return (error && error.errorCode == '701115') /* Already in collection */
           ? of({ mms_id: mmsId })
           : throwError(err);
       })
     )
-    /* TODO: Handle if BIB already in collection - 701115*/
   }
 
   createRepresentation(mmsId: string) {

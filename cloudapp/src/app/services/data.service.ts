@@ -15,7 +15,9 @@ export const STORE_COLLECTION = 'Collection';
 })
 export class DataService { 
   licenseCode: string;
-  private _selectedCollection: Collection;
+  public collectionPath: string;
+  public collectionId: string;
+  private _rootCollection: Collection;
   private _collections: Collection[] = [];
 
   constructor(
@@ -24,7 +26,7 @@ export class DataService {
     private translate: TranslateService,
   ) {
     this.store.get(STORE_COLLECTION)
-    .subscribe(collection => this._selectedCollection = collection);
+    .subscribe(collection => this._rootCollection = collection);
   }
 
   get collections() {
@@ -36,13 +38,13 @@ export class DataService {
     )
   }
 
-  set selectedCollection(collection: Collection) {
+  set rootCollection(collection: Collection) {
     this.store.set(STORE_COLLECTION, collection).subscribe();
-    this._selectedCollection = collection;
+    this._rootCollection = collection;
   }
 
-  get selectedCollection() {
-    return this._selectedCollection;
+  get rootCollection() {
+    return this._rootCollection;
   }
 
   buildExcel(license: Alma.License) {

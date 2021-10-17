@@ -4,13 +4,11 @@ export namespace Alma {
   }
 
   export interface Collection {
-    pid: {
-      value: string,
-      link: string
-    },
+    pid: Value,
+    parent_pid: Value,
     name: string,
-    order: number,
-    collection: Collection[],
+    library: Value,
+    collection?: Collection[],
   }
 
   export interface License {
@@ -18,6 +16,7 @@ export namespace Alma {
     code: string;
     name: string;
     resource: Resource[];
+    licensor: Value;
   }
 
   export interface LicenseAttachments {
@@ -41,7 +40,7 @@ export namespace Alma {
 
   export interface Value { 
     value: string;
-    desc: string;
+    desc?: string;
   }
 
   export interface GeneralConfig {
@@ -51,15 +50,7 @@ export namespace Alma {
       region: string;
       ingest_url: string;
       delivery_url: string;
-      ingest_form: {
-        acl: string;
-        policy: string;
-        success_action_status: string;
-        "X-Amz-Algorithm": string;
-        "X-Amz-Credential": string;
-        "X-Amz-Signature": string;
-        "X-Amz-Date": string;
-      }
+      ingest_form: object
     }
   }
 
@@ -89,9 +80,24 @@ export namespace Alma {
     code: string;
     description: string;
   }
+
+  export interface Error {
+    errorCode: string;
+    errorMessage: string;
+    trackingId: string;
+  }
 }
 
 export const sortCodeTable = (table: Alma.CodeTable) => {
   table.row.sort((a, b) => a.description.localeCompare(b.description, undefined, {sensitivity: 'base'}))
   return table;
+}
+
+export const parseError = (err: any) => {
+  const error = err.error;
+  if (error && error.errorList && Array.isArray(error.errorList.error) && error.errorList.error.length > 0) {
+    return error.errorList.error[0] as Alma.Error
+  } else {
+    return undefined;
+  }
 }
