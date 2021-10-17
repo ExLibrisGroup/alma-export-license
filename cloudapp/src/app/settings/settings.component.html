@@ -6,7 +6,13 @@
 </div>
 <form *ngIf="form" [formGroup]="form">
   <h1 translate>SETTINGS.TITLE</h1>
-  <h2 translate>SETTINGS.DIGITAL</h2>
+  <mat-tab-group mat-align-tabs="start">
+  <mat-tab [label]="'SETTINGS.EXPORT' | translate">
+    <div class="settings-group">
+      <mat-slide-toggle labelPosition="before" formControlName="includeInventory">{{'SETTINGS.INCLUDE_INVENTORY' | translate}}</mat-slide-toggle>  
+    </div>
+  </mat-tab>
+  <mat-tab [label]="'SETTINGS.DIGITAL' | translate">
   <div class="settings-group">
     <mat-slide-toggle labelPosition="before" formControlName="includeAttachments">{{'SETTINGS.INCLUDE_ATTACHMENTS' | translate}}</mat-slide-toggle>  
     <mat-slide-toggle labelPosition="before" formControlName="overwriteWarning">{{'SETTINGS.OVERWRITE_WARNING' | translate}}</mat-slide-toggle>  
@@ -30,6 +36,8 @@
       {{ term.description }}
     </mat-slide-toggle>
   </div> 
+  </mat-tab>
+  </mat-tab-group>
 </form>
 <div class="loading-shade" *ngIf="saving">
   <mat-progress-spinner mode="indeterminate" diameter="50"></mat-progress-spinner>

@@ -35,7 +35,7 @@
     "LINK": "Go to file",
     "EXISTING_DIALOG": {
       "TITLE": "Existing record found",
-      "TEXT": "A record with this title has been found in this collection. Do you wish to overwrite the record?",
+      "TEXT": "A record with this title has been found. Do you wish to overwrite the record?",
       "OK": "Yes, overwrite record",
       "CANCEL": "No"
     },
@@ -55,6 +55,8 @@
   "SETTINGS": {
     "TITLE": "Settings",
     "DIGITAL": "Digital",
+    "EXPORT": "File export",
+    "INCLUDE_INVENTORY": "Include electronic inventory",
     "INCLUDE_ATTACHMENTS": "Include license attachments",
     "OVERWRITE_WARNING": "Warn before overwriting",
     "DISCARD": "Discard changes?",

@@ -176,7 +176,7 @@ export class DigitalComponent implements OnInit {
     if (this.settings.licenseTerms != 'all') {
       this.license.term = this.license.term.filter(t => this.settings.licenseTerms.includes(t.code.value))
     }
-    const wb = this.data.buildExcel(this.license);
+    const wb = this.data.buildExcel(this.license, this.settings.includeInventory);
     const out = XLSX.write(wb, { bookType:'xlsx',  type: 'binary' });
     const file = new File(
       [s2ab(out)], 

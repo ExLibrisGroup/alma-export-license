@@ -17,17 +17,21 @@ import { Settings } from '../models/settings';
 export class DetailsComponent implements OnInit {
 
   loading = false;
+  settings: Settings;
 
   constructor(
     public data: DataService,
     private alma: AlmaService,
     private dialog: DialogService,
-    private settings: SettingsService,
+    private settingsService: SettingsService,
   ) { }
 
   ngOnInit() {
-    this.settings.get()
-    .subscribe(settings => this.populateCollectionPath(settings));
+    this.settingsService.get()
+    .subscribe(settings => {
+      this.settings = settings;
+      this.populateCollectionPath(settings)
+    });
   }
 
   selectCollection() {
@@ -47,7 +51,7 @@ export class DetailsComponent implements OnInit {
     this.alma.getLicense(this.data.licenseCode)
     .pipe(finalize(() => this.loading = false))
     .subscribe(license => {
-      const wb = this.data.buildExcel(license);
+      const wb = this.data.buildExcel(license, this.settings.includeInventory);
       XLSX.writeFile(wb, `${license.code}.xlsx`);
     })
   }

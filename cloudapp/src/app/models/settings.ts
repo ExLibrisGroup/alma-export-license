@@ -3,6 +3,7 @@ import { FormGroupUtil } from "@exlibris/exl-cloudapp-angular-lib";
 export class Settings {
   includeAttachments: boolean = true;
   overwriteWarning: boolean = true;
+  includeInventory: boolean = true;
   licenseTerms: 'all' | string[] = 'all';
   collectionPath: string[] = [];
 }
