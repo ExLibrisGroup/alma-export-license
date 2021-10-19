@@ -6,7 +6,7 @@ import { Alma } from '../models/alma';
 import { AlmaService } from './alma.service';
 import { v4 as uuidv4 } from 'uuid';
 import CryptoES from 'crypto-es';
-import { selectSingleNode } from '../utils';
+import { selectText } from '../utils';
 
 export class UploadFile {
   inProgress: boolean = false;
@@ -113,7 +113,7 @@ export class UploadService {
     let key: string;
     if (event.type == HttpEventType.Response) {
       const doc = new DOMParser().parseFromString((<HttpResponse<any>>event).body, "application/xml");
-      key = selectSingleNode(doc, `/PostResponse/Key`);
+      key = selectText(doc, `/PostResponse/Key`);
     }
     if (!key) throw new Error('Key could not be extracted.');
     return key;

@@ -7,7 +7,7 @@ import { UploadFile, UploadService } from '../services/upload.service';
 import * as XLSX from 'xlsx';
 import { concat, forkJoin, Observable, of } from 'rxjs';
 import { AlertService } from '@exlibris/exl-cloudapp-angular-lib';
-import { dataToFile, s2ab, selectSingleNode } from '../utils';
+import { dataToFile, s2ab, selectText } from '../utils';
 import { ProgressTrackerComponent } from '../progress-tracker/progress-tracker.component';
 import { DialogService } from 'eca-components';
 import { TranslateService } from '@ngx-translate/core';
@@ -153,7 +153,7 @@ export class DigitalComponent implements OnInit {
     .pipe(
       map(result => {
         const doc = new DOMParser().parseFromString(result, "text/xml");
-        this.mmsId = selectSingleNode(doc, '/default:searchRetrieveResponse/default:records/default:record/default:recordIdentifier');
+        this.mmsId = selectText(doc, '/default:searchRetrieveResponse/default:records/default:record/default:recordIdentifier');
         return this.mmsId;
       }),
       switchMap(result => !!result && this.settings.overwriteWarning ?

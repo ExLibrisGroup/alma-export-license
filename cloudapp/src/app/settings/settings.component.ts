@@ -2,7 +2,6 @@ import { Component, Injectable, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { CanDeactivate } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
 import { DialogService } from 'eca-components';
 import { Observable, of } from 'rxjs';
 import { finalize, tap } from 'rxjs/operators';
@@ -24,7 +23,6 @@ export class SettingsComponent implements OnInit {
 
   constructor(
     private settingsService: SettingsService,
-    private translate: TranslateService,
     private alma: AlmaService,
   ) { }
 
@@ -33,7 +31,7 @@ export class SettingsComponent implements OnInit {
       this.form = settingsFormGroup(settings);
     });
     this.alma.getLicenseTerms()
-    .pipe(tap(results => this.licenseTerms = results.row))
+    .pipe(tap(results => this.licenseTerms = results.row.filter(r => r.enabled)))
     .subscribe();
   }
 

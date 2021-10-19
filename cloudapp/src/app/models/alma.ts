@@ -79,6 +79,7 @@ export namespace Alma {
   export interface CodeTableRow {
     code: string;
     description: string;
+    enabled: boolean;
   }
 
   export interface Error {
@@ -101,3 +102,17 @@ export const parseError = (err: any) => {
     return undefined;
   }
 }
+
+export const templateNamespaces = {
+  dc: "http://purl.org/dc/elements/1.1/",
+  dcterms: "http://purl.org/dc/terms/",
+}
+
+export const dcTemplate = `
+  <bib>
+  <suppress_from_publishing>false</suppress_from_publishing>
+  <record_format>dc</record_format>
+  <record ${Object.entries(templateNamespaces).map(([k, v]) => `xmlns:${k}="${v}"`).join(" ")}>
+  </record>
+  </bib>
+`

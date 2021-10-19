@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { CloudAppEventsService, CloudAppRestService, HttpMethod, InitData } from '@exlibris/exl-cloudapp-angular-lib';
-import { catchError, defaultIfEmpty, expand, map, switchMap, last, take } from 'rxjs/operators';
+import { catchError, defaultIfEmpty, expand, map, switchMap, last } from 'rxjs/operators';
 import { Collection } from '../models/collection';
-import { Alma, parseError, sortCodeTable } from '../models/alma';
-import { forkJoin, Observable, of, throwError } from 'rxjs';
+import { Alma, dcTemplate, parseError, sortCodeTable, templateNamespaces } from '../models/alma';
+import { EMPTY, forkJoin, Observable, of, throwError } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { dom, selectSingleNode } from '../utils';
 
 export const STORE_COLLECTION = 'Collection';
 
@@ -55,16 +56,19 @@ export class AlmaService {
   }
 
   createOrUpdateBibFromLicense(license: Alma.License, mmsId: string) {
-    const requestBody = `
-      <bib>
-        <suppress_from_publishing>false</suppress_from_publishing>
-        <record_format>dc</record_format>
-        <record xmlns:dc="http://purl.org/dc/elements/1.1/">
-          <dc:title>${license.name}</dc:title>
-          <dc:identifier>${license.code}</dc:identifier>
-        </record>
-      </bib>
-    `
+    const doc = new DOMParser().parseFromString(dcTemplate, "application/xml");
+    let record = selectSingleNode(doc, `/bib/record`);
+    const fields =
+    {
+      "dc:title": license.name,
+      "dc:identifier": license.code
+    };
+    Object.entries(fields).forEach(([k, v]) => dom(k, { parent: record, text: v, ns: templateNamespaces[k.split(":")[0]] }));
+    const requestBody = new XMLSerializer().serializeToString(doc.documentElement);
+    return this._createOrUpdateBib(mmsId, requestBody);
+  }
+
+  private _createOrUpdateBib(mmsId: string, requestBody: string) {
     return this.rest.call<Alma.Bib>({
       url: !mmsId ? '/bibs' : `/bibs/${mmsId}`,
       method: !mmsId ? HttpMethod.POST : HttpMethod.PUT,
@@ -81,8 +85,7 @@ export class AlmaService {
     let i = 0;
     return this.createCollection(root, path[i])
     .pipe(
-      expand(collection => this.createCollection(collection.pid.value, path[++i])),
-      take(path.length - 1),
+      expand(collection => i < path.length - 1 ? this.createCollection(collection.pid.value, path[++i]) : EMPTY),
       last(),
     )
   }
@@ -124,7 +127,7 @@ export class AlmaService {
     return this.rest.call<Alma.Collection>(`/bibs/collections/${pid}?level=${level}`);
   }
 
-  addBibToCollection(mmsId: string, collectionId: string) {
+  addBibToCollection(mmsId: string, collectionId: string): Observable<Alma.Bib> {
     return this.rest.call<Alma.Bib>({
       url: `/bibs/collections/${collectionId}/bibs`,
       method: HttpMethod.POST,

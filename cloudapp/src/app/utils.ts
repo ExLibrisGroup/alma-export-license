@@ -7,7 +7,11 @@
   }
 
   const selectSingleNode = (doc: Document, expression: string) => {
-    const node = select(doc, expression, { single: true }).singleNodeValue;
+    return select(doc, expression, { single: true }).singleNodeValue;
+  }
+
+  const selectText= (doc: Document, expression: string) => {
+    const node = selectSingleNode(doc, expression);
     return node && node.textContent;
   }
 
@@ -31,9 +35,8 @@
 
   /** Adds Element to dom and returns it */
   const dom = (name: string, options: {parent?: Element | Node, text?: string, className?: string, 
-    id?: string, attributes?: string[][]} = {}): Element => {
-
-    let ns = (options.parent && options.parent instanceof Element) ? options.parent.namespaceURI : '';
+    id?: string, ns?: string, attributes?: string[][]} = {}): Element => {
+    let ns = options.ns || ((options.parent && options.parent instanceof Element) ? options.parent.namespaceURI : '');
     let element = document.createElementNS(ns, name);
     
     if (options.parent) options.parent.appendChild(element);
@@ -76,5 +79,5 @@
       return new File([u8arr], name, { type: mime});
   }
 
-export { select, selectSingleNode, s2ab, dataToFile }
+export { select, selectSingleNode, dom, s2ab, dataToFile, selectText }
 
