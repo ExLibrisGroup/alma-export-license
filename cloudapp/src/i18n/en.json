@@ -11,8 +11,7 @@
   "DETAILS": {
     "COLLECTION": "Collection",
     "COLLECTION_PATH": "Collection path",
-    "COLLETION_ROOT": "Root collection",
-    "SELECT": "Select collection",
+    "COLLECTION_ROOT": "Root collection",
     "DOWNLOAD": "Download Excel",
     "DIGITAL": "Create digital"
   },
@@ -31,8 +30,8 @@
   },
   "DIGITAL": {
     "COMPLETE": "Complete",
-    "MESSAGE": "The license has been successfully exported and ingested into the repository.",
-    "LINK": "Go to file",
+    "MESSAGE": "The license has been successfully exported and ingested into the repository (record ID {{mmsId}}).",
+    "LINK": "Go to representation",
     "EXISTING_DIALOG": {
       "TITLE": "Existing record found",
       "TEXT": "A record with this title has been found. Do you wish to overwrite the record?",
@@ -69,6 +68,9 @@
     },
     "COLLECTION_PATH": {
       "TITLE": "Collection Path",
+      "ROOT_COLLECTION": "Root collection",
+      "SELECT": "Select collection",
+      "FIELDS": "Fields",
       "DESCRIPTION": "Add fields you wish to appear in the collection path. The fields will be calculated as default values and can be changed before the digital representation is created.",
       "OPTIONS": "Options",
       "SELECTED": "Selected"

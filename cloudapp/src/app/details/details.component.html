@@ -1,16 +1,14 @@
 <div class="eca-actions">
   <button mat-flat-button color="secondary" routerLink="">{{ 'BACK' | translate }}</button>
   <button mat-flat-button color="secondary" (click)="download()" [disabled]="!data.licenseCode">{{ 'DETAILS.DOWNLOAD' | translate }}</button>
-  <button mat-flat-button color="primary" routerLink="/digital" [disabled]="!data.licenseCode || !data.rootCollection">{{ 'DETAILS.DIGITAL' | translate }}</button>
+  <button mat-flat-button color="primary" routerLink="/digital" [disabled]="!data.licenseCode || !settings?.rootCollectionId">{{ 'DETAILS.DIGITAL' | translate }}</button>
 </div>
 <mat-card>
   <mat-card-header>
     <mat-card-title translate>DETAILS.COLLECTION</mat-card-title>
   </mat-card-header>
   <mat-card-content>
-    <h3 translate>DETAILS.COLLETION_ROOT</h3>
-    <span>{{ data.rootCollection?.fullname }}</span> 
-    <i class="uxf-icon uxf-pencil eca-button" (click)="selectCollection()" attr.aria-label="{{'DETAILS.SELECT'|translate}}" title="{{'DETAILS.SELECT'|translate}}"></i>
+    <p><strong translate>DETAILS.COLLECTION_ROOT</strong>: {{ settings?.rootCollectionFullName }}</p>
     <mat-form-field>
       <mat-label translate>DETAILS.COLLECTION_PATH</mat-label>
       <input matInput [(ngModel)]="data.collectionPath">    

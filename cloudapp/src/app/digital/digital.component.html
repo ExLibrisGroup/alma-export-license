@@ -11,7 +11,7 @@
 </div>
 <div *ngIf="delivery_url">
   <h2 translate>DIGITAL.COMPLETE</h2>
-  <p translate>DIGITAL.MESSAGE</p>
+  <p translate [translateParams]="{ mmsId: mmsId }">DIGITAL.MESSAGE</p>
   <a mat-raised-button [href]="delivery_url" target="_blank">{{'DIGITAL.LINK' | translate}} <i class="uxf-icon uxf-external-link" aria-hidden="true"></i></a>
 </div>
 <div *ngFor="let file of files" class="file-progress">

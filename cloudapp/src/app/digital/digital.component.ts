@@ -100,10 +100,10 @@ export class DigitalComponent implements OnInit {
   createCollectionTree() {
     this.progressTracker.setProgress('CREATING_COLLECTIONS');
     if (!this.data.collectionPath) {
-      this.data.collectionId = this.data.rootCollection.id;
+      this.data.collectionId = this.settings.rootCollectionId;
       return of(true);
     }
-    return this.alma.createCollectionTree(this.data.rootCollection.id, this.data.collectionPath.split('/'))
+    return this.alma.createCollectionTree(this.settings.rootCollectionId, this.data.collectionPath.split('/'))
     .pipe(tap(collection => this.data.collectionId = collection.pid.value));
   }
 
@@ -173,18 +173,19 @@ export class DigitalComponent implements OnInit {
 
   upload(): Observable<string[]> {
     this.progressTracker.setProgress('UPLOADING');
-    if (this.settings.licenseTerms != 'all') {
-      this.license.term = this.license.term.filter(t => this.settings.licenseTerms.includes(t.code.value))
-    }
-    const wb = this.data.buildExcel(this.license, this.settings.includeInventory);
-    const out = XLSX.write(wb, { bookType:'xlsx',  type: 'binary' });
-    const file = new File(
-      [s2ab(out)], 
-      `${this.license.code}.xlsx`, 
-      { type: EXCEL_MIME_TYPE }
+    return this.data.buildExcel()
+    .pipe(
+      map(wb => {
+        const out = XLSX.write(wb, { bookType:'xlsx',  type: 'binary' });
+        const file = new File(
+          [s2ab(out)], 
+          `${this.data.licenseCode}.xlsx`, 
+          { type: EXCEL_MIME_TYPE }
+        )
+        this.files.push(new UploadFile(file));
+      }),
+      switchMap(() => this.uploadService.upload(this.files))
     )
-    this.files.push(new UploadFile(file));
-    return this.uploadService.upload(this.files);
   }
 
 }

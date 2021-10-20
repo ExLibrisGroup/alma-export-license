@@ -1,5 +1,5 @@
 {
-   "id": "export-license",
+   "id": "exlibrisgroup/alma-export-license",
    "title": "Export License Terms",
    "subtitle": "Export electronic license terms to a file with option to store as digital inventory",
    "author": "Ex Libris",
@@ -12,7 +12,8 @@
       "LICENSE"
    ],
    "pages": {
-      "settings": "/#/settings"
+      "settings": "/#/settings",
+      "help": "https://github.com/exlibrisgroup/alma-export-license/wiki/Help"
    },
    "contentSecurity": {
       "sandbox": {

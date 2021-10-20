@@ -4,9 +4,9 @@ import { MatTreeNestedDataSource } from '@angular/material/tree';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { PromptDialog, PromptDialogData } from "eca-components";
 import { Collection } from '../models/collection';
-import { DataService } from '../services/data.service';
 import { finalize } from 'rxjs/operators';
 import { TranslateService } from '@ngx-translate/core';
+import { SettingsService } from '../services/settings.service';
 
 @Component({
   selector: 'app-collection-picker',
@@ -23,7 +23,7 @@ export class CollectionPickerDialog extends PromptDialog implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: PromptDialogData,
     public dialogRef: MatDialogRef<PromptDialog>,
     public translate: TranslateService,
-    private dataService: DataService,
+    private settings: SettingsService,
   ) { 
     super(data,translate,dialogRef);
     this.selected = data.val;
@@ -31,7 +31,7 @@ export class CollectionPickerDialog extends PromptDialog implements OnInit {
 
   ngOnInit() {
     this.loading = true;
-    this.dataService.collections
+    this.settings.collections
     .pipe(finalize(() => this.loading = false))
     .subscribe(collections => {
       this.dataSource.data = collections;

@@ -5,6 +5,8 @@ export class Settings {
   overwriteWarning: boolean = true;
   includeInventory: boolean = true;
   licenseTerms: 'all' | string[] = 'all';
+  rootCollectionId: string = "";
+  rootCollectionFullName: string = "";
   collectionPath: string[] = [];
   metadata: MetadataField[] = [
     { field: "dc:title", value: "LICENSE_NAME" },

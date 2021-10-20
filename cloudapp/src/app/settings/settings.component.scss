@@ -1,7 +1,7 @@
 .term-list {
   display: grid;
   grid-template-columns: 50% 50%;
-  margin-top: 20px;
+  margin: 20px 0;
 }
 .hint {
   font-weight: 100;
@@ -13,4 +13,7 @@
 .mat-accordion {
   display: block;
   margin: 0 5px 20px 5px;
+}
+.mat-divider {
+  margin: 10px 0;
 }

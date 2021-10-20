@@ -11,6 +11,21 @@
       <div class="settings-group">
         <mat-slide-toggle labelPosition="before" formControlName="includeInventory">{{'SETTINGS.INCLUDE_INVENTORY' | translate}}</mat-slide-toggle>  
       </div>
+      <h3 translate>SETTINGS.LICENSE_TERMS.TITLE</h3>
+      <mat-button-toggle-group [(ngModel)]="allLicenseTerms" [ngModelOptions]="{standalone: true}">
+        <mat-button-toggle [value]="true">{{ 'SETTINGS.LICENSE_TERMS.ALL' | translate }}</mat-button-toggle>
+        <mat-button-toggle [value]="false">{{ 'SETTINGS.LICENSE_TERMS.SELECTED' | translate }}</mat-button-toggle>
+      </mat-button-toggle-group>
+      <div class="term-list" *ngIf="!allLicenseTerms">
+        <mat-slide-toggle *ngFor="let term of licenseTerms"
+          [title]="term.description"
+          class="license-term"
+          [checked]="form.controls.licenseTerms.value.includes(term.code)"
+          (change)="onTermToggled($event, term.code)"
+          >
+          {{ term.description }}
+        </mat-slide-toggle>
+      </div>
     </mat-tab>
     <mat-tab [label]="'SETTINGS.DIGITAL' | translate">
       <mat-accordion>
@@ -20,30 +35,14 @@
               SETTINGS.COLLECTION_PATH.TITLE
             </mat-panel-title>
           </mat-expansion-panel-header>
+          <h3 translate>SETTINGS.COLLECTION_PATH.ROOT_COLLECTION</h3>
+          <span>{{ form.get('rootCollectionFullName').value }}</span> 
+          <i class="uxf-icon uxf-pencil eca-button" (click)="selectRootCollection()" attr.aria-label="{{'SETTINGS.COLLECTION_PATH.SELECT'|translate}}" title="{{'SETTINGS.COLLECTION_PATH.SELECT'|translate}}"></i>
+          <mat-divider></mat-divider>
+          <h3 translate>SETTINGS.COLLECTION_PATH.FIELDS</h3>
           <p class="hint" translate>SETTINGS.COLLECTION_PATH.DESCRIPTION</p>
           <app-collection-path [collectionPath]="form.controls.collectionPath"
           ></app-collection-path>
-        </mat-expansion-panel>
-        <mat-expansion-panel>
-          <mat-expansion-panel-header>
-            <mat-panel-title translate>
-              SETTINGS.LICENSE_TERMS.TITLE
-            </mat-panel-title>
-          </mat-expansion-panel-header>
-          <mat-button-toggle-group [(ngModel)]="allLicenseTerms" [ngModelOptions]="{standalone: true}">
-            <mat-button-toggle [value]="true">{{ 'SETTINGS.LICENSE_TERMS.ALL' | translate }}</mat-button-toggle>
-            <mat-button-toggle [value]="false">{{ 'SETTINGS.LICENSE_TERMS.SELECTED' | translate }}</mat-button-toggle>
-          </mat-button-toggle-group>
-          <div class="term-list" *ngIf="!allLicenseTerms">
-            <mat-slide-toggle *ngFor="let term of licenseTerms"
-              [title]="term.description"
-              class="license-term"
-              [checked]="form.controls.licenseTerms.value.includes(term.code)"
-              (change)="onTermToggled($event, term.code)"
-              >
-              {{ term.description }}
-            </mat-slide-toggle>
-          </div>   
         </mat-expansion-panel>
         <mat-expansion-panel>
           <mat-expansion-panel-header>
