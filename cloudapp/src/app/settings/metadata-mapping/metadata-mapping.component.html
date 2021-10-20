@@ -1,0 +1,7 @@
+<mat-list role="list">
+  <mat-list-item role="listitem" *ngFor="let item of metadata.value; index as i">
+    {{ item.field }} / {{ item.value }} <span *ngIf="item.value == 'TEXT'">/ {{ item.text }}</span>
+    <i class="uxf-icon uxf-close eca-button" (click)="remove(i)"></i>
+  </mat-list-item>
+</mat-list>
+<button mat-flat-button type="button" color="secondary" (click)="add()">{{ 'SETTINGS.METADATA_MAPPING.ADD' | translate}}</button>

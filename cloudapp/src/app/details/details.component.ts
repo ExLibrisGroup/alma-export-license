@@ -8,6 +8,7 @@ import { DataService } from '../services/data.service';
 import * as XLSX from 'xlsx';
 import { SettingsService } from '../services/settings.service';
 import { Settings } from '../models/settings';
+import { parseLicense } from '../models/alma';
 
 @Component({
   selector: 'app-details',
@@ -62,20 +63,7 @@ export class DetailsComponent implements OnInit {
     this.alma.getLicense(this.data.licenseCode)
     .pipe(finalize(() => this.loading = false))
     .subscribe(license => {
-      this.data.collectionPath = settings.collectionPath.map(p => {
-        switch (p) {
-          case 'LICENSE_NAME':
-            return license.name;
-          case 'LICENSE_CODE':
-            return license.code;
-          case 'LICENSE_LICENSOR':
-            return license.licensor.desc;
-          case 'CURRENT_YEAR':
-            return new Date().getFullYear();
-          default:
-            return '';
-        }
-      }).join('/');
+      this.data.collectionPath = settings.collectionPath.map(p => parseLicense(p, license)).join('/');
     })
   }
 }

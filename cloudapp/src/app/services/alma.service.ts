@@ -2,10 +2,11 @@ import { Injectable } from '@angular/core';
 import { CloudAppEventsService, CloudAppRestService, HttpMethod, InitData } from '@exlibris/exl-cloudapp-angular-lib';
 import { catchError, defaultIfEmpty, expand, map, switchMap, last } from 'rxjs/operators';
 import { Collection } from '../models/collection';
-import { Alma, dcTemplate, parseError, sortCodeTable, templateNamespaces } from '../models/alma';
+import { Alma, dcTemplate, parseError, parseLicense, sortCodeTable, templateNamespaces } from '../models/alma';
 import { EMPTY, forkJoin, Observable, of, throwError } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { dom, selectSingleNode } from '../utils';
+import { MetadataField } from '../models/settings';
 
 export const STORE_COLLECTION = 'Collection';
 
@@ -55,15 +56,17 @@ export class AlmaService {
     .pipe(map(table => sortCodeTable(table)));
   }
 
-  createOrUpdateBibFromLicense(license: Alma.License, mmsId: string) {
+  createOrUpdateBibFromLicense(license: Alma.License, mmsId: string, fields: MetadataField[]) {
     const doc = new DOMParser().parseFromString(dcTemplate, "application/xml");
     let record = selectSingleNode(doc, `/bib/record`);
-    const fields =
-    {
-      "dc:title": license.name,
-      "dc:identifier": license.code
-    };
-    Object.entries(fields).forEach(([k, v]) => dom(k, { parent: record, text: v, ns: templateNamespaces[k.split(":")[0]] }));
+    fields.forEach(f => dom(
+      f.field, 
+      { 
+        parent: record, 
+        text: f.value == 'TEXT' ? f.text : parseLicense(f.value, license), 
+        ns: templateNamespaces[f.field.split(":")[0]] 
+      })
+    );
     const requestBody = new XMLSerializer().serializeToString(doc.documentElement);
     return this._createOrUpdateBib(mmsId, requestBody);
   }

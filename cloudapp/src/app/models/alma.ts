@@ -116,3 +116,18 @@ export const dcTemplate = `
   </record>
   </bib>
 `
+
+export const parseLicense = (code: string, license: Alma.License): string => {
+  switch (code) {
+    case 'LICENSE_NAME':
+      return license.name;
+    case 'LICENSE_CODE':
+      return license.code;
+    case 'LICENSE_LICENSOR':
+      return license.licensor.desc;
+    case 'CURRENT_YEAR':
+      return new Date().getFullYear().toString();
+    default:
+      return '';
+  }
+}

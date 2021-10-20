@@ -7,36 +7,66 @@
 <form *ngIf="form" [formGroup]="form">
   <h1 translate>SETTINGS.TITLE</h1>
   <mat-tab-group mat-align-tabs="start">
-  <mat-tab [label]="'SETTINGS.EXPORT' | translate">
-    <div class="settings-group">
-      <mat-slide-toggle labelPosition="before" formControlName="includeInventory">{{'SETTINGS.INCLUDE_INVENTORY' | translate}}</mat-slide-toggle>  
-    </div>
-  </mat-tab>
-  <mat-tab [label]="'SETTINGS.DIGITAL' | translate">
-  <div class="settings-group">
-    <mat-slide-toggle labelPosition="before" formControlName="includeAttachments">{{'SETTINGS.INCLUDE_ATTACHMENTS' | translate}}</mat-slide-toggle>  
-    <mat-slide-toggle labelPosition="before" formControlName="overwriteWarning">{{'SETTINGS.OVERWRITE_WARNING' | translate}}</mat-slide-toggle>  
-  </div>
-  <h3 translate>SETTINGS.COLLECTION_PATH.TITLE</h3>
-  <p class="hint" translate>SETTINGS.COLLECTION_PATH.DESCRIPTION</p>
-  <app-collection-path [collectionPath]="form.controls.collectionPath"
-  ></app-collection-path>
-  <h3 translate>SETTINGS.LICENSE_TERMS.TITLE</h3>
-  <mat-button-toggle-group [(ngModel)]="allLicenseTerms" [ngModelOptions]="{standalone: true}">
-    <mat-button-toggle [value]="true">{{ 'SETTINGS.LICENSE_TERMS.ALL' | translate }}</mat-button-toggle>
-    <mat-button-toggle [value]="false">{{ 'SETTINGS.LICENSE_TERMS.SELECTED' | translate }}</mat-button-toggle>
-  </mat-button-toggle-group>
-  <div class="term-list" *ngIf="!allLicenseTerms">
-    <mat-slide-toggle *ngFor="let term of licenseTerms"
-      [title]="term.description"
-      class="license-term"
-      [checked]="form.controls.licenseTerms.value.includes(term.code)"
-      (change)="onTermToggled($event, term.code)"
-      >
-      {{ term.description }}
-    </mat-slide-toggle>
-  </div> 
-  </mat-tab>
+    <mat-tab [label]="'SETTINGS.EXPORT' | translate">
+      <div class="settings-group">
+        <mat-slide-toggle labelPosition="before" formControlName="includeInventory">{{'SETTINGS.INCLUDE_INVENTORY' | translate}}</mat-slide-toggle>  
+      </div>
+    </mat-tab>
+    <mat-tab [label]="'SETTINGS.DIGITAL' | translate">
+      <mat-accordion>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title translate>
+              SETTINGS.COLLECTION_PATH.TITLE
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <p class="hint" translate>SETTINGS.COLLECTION_PATH.DESCRIPTION</p>
+          <app-collection-path [collectionPath]="form.controls.collectionPath"
+          ></app-collection-path>
+        </mat-expansion-panel>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title translate>
+              SETTINGS.LICENSE_TERMS.TITLE
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <mat-button-toggle-group [(ngModel)]="allLicenseTerms" [ngModelOptions]="{standalone: true}">
+            <mat-button-toggle [value]="true">{{ 'SETTINGS.LICENSE_TERMS.ALL' | translate }}</mat-button-toggle>
+            <mat-button-toggle [value]="false">{{ 'SETTINGS.LICENSE_TERMS.SELECTED' | translate }}</mat-button-toggle>
+          </mat-button-toggle-group>
+          <div class="term-list" *ngIf="!allLicenseTerms">
+            <mat-slide-toggle *ngFor="let term of licenseTerms"
+              [title]="term.description"
+              class="license-term"
+              [checked]="form.controls.licenseTerms.value.includes(term.code)"
+              (change)="onTermToggled($event, term.code)"
+              >
+              {{ term.description }}
+            </mat-slide-toggle>
+          </div>   
+        </mat-expansion-panel>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title translate>
+              SETTINGS.METADATA_MAPPING.TITLE
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <app-metadata-mapping [metadata]="form.controls.metadata"
+          ></app-metadata-mapping>
+        </mat-expansion-panel>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title translate>
+              SETTINGS.OTHER
+            </mat-panel-title>
+          </mat-expansion-panel-header>    
+          <div class="settings-group">
+            <mat-slide-toggle labelPosition="before" formControlName="includeAttachments">{{'SETTINGS.INCLUDE_ATTACHMENTS' | translate}}</mat-slide-toggle>  
+            <mat-slide-toggle labelPosition="before" formControlName="overwriteWarning">{{'SETTINGS.OVERWRITE_WARNING' | translate}}</mat-slide-toggle>  
+          </div>
+        </mat-expansion-panel>        
+      </mat-accordion>
+    </mat-tab>
   </mat-tab-group>
 </form>
 <div class="loading-shade" *ngIf="saving">

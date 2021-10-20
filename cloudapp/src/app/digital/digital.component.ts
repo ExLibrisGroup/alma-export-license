@@ -94,7 +94,7 @@ export class DigitalComponent implements OnInit {
 
   createBib() {
     this.progressTracker.setProgress('CREATING_BIB');
-    return this.alma.createOrUpdateBibFromLicense(this.license, this.mmsId);
+    return this.alma.createOrUpdateBibFromLicense(this.license, this.mmsId, this.settings.metadata);
   }
 
   createCollectionTree() {

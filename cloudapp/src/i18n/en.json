@@ -54,6 +54,7 @@
   },
   "SETTINGS": {
     "TITLE": "Settings",
+    "OTHER": "Other",
     "DIGITAL": "Digital",
     "EXPORT": "File export",
     "INCLUDE_INVENTORY": "Include electronic inventory",
@@ -77,6 +78,13 @@
       "LICENSE_CODE": "License code",
       "LICENSE_LICENSOR": "Vendor name",
       "CURRENT_YEAR": "Current year"
+    },
+    "METADATA_MAPPING": {
+      "TITLE": "Metadata Mapping",
+      "ADD": "Add Field",
+      "FIELD_NAME": "Field name",
+      "VALUE": "Value",
+      "TEXT": "Text"
     }
   }
 }

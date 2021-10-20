@@ -14,7 +14,9 @@ import { CollectionPickerDialog } from './collection-picker/collection-picker.co
 import { DigitalComponent } from './digital/digital.component';
 import { ProgressTrackerComponent } from './progress-tracker/progress-tracker.component';
 import { SettingsComponent } from './settings/settings.component';
-import { CollectionPathComponent } from './settings/collection-path.component';
+import { CollectionPathComponent } from './settings/collection-path/collection-path.component';
+import { MetadataMappingComponent } from './settings/metadata-mapping/metadata-mapping.component';
+import { AddMetadataMappingDialog } from './settings/metadata-mapping/add-metadata-mapping-dialog.component';
 
 @NgModule({
   declarations: [					
@@ -26,6 +28,8 @@ import { CollectionPathComponent } from './settings/collection-path.component';
     ProgressTrackerComponent,
     SettingsComponent,
     CollectionPathComponent,
+    MetadataMappingComponent,
+    AddMetadataMappingDialog,
    ],
   imports: [
     MaterialModule,
@@ -44,6 +48,6 @@ import { CollectionPathComponent } from './settings/collection-path.component';
     { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'standard' } },
   ],
   bootstrap: [AppComponent],
-  entryComponents: [CollectionPickerDialog]
+  entryComponents: [CollectionPickerDialog, AddMetadataMappingDialog]
 })
 export class AppModule { }

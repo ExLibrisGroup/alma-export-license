@@ -1,8 +1,8 @@
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from "@angular/cdk/drag-drop";
 import { Component, Input, OnInit } from "@angular/core";
 import { FormArray } from "@angular/forms";
-import { CollectionPathOptions } from "../models/settings";
-import { AlmaService } from "../services/alma.service";
+import { CollectionPathOptions } from "../../models/settings";
+import { AlmaService } from "../../services/alma.service";
 
 @Component({
   selector: 'app-collection-path',
