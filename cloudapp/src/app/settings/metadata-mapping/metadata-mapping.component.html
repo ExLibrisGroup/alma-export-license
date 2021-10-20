@@ -1,6 +1,6 @@
 <mat-list role="list">
   <mat-list-item role="listitem" *ngFor="let item of metadata.value; index as i">
-    {{ item.field }} / {{ item.value }} <span *ngIf="item.value == 'TEXT'">/ {{ item.text }}</span>
+    {{ item.field }} / {{ (item.value == 'TEXT' ? 'SETTINGS.METADATA_MAPPING.TEXT' : 'SETTINGS.COLLECTION_PATH_OPTIONS.' + item.value) | translate }}<span class="item-text" *ngIf="item.value == 'TEXT'"> / {{ item.text }}</span>
     <i class="uxf-icon uxf-close eca-button" (click)="remove(i)"></i>
   </mat-list-item>
 </mat-list>

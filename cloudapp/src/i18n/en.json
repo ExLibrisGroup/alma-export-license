@@ -79,6 +79,7 @@
       "LICENSE_NAME": "License name",
       "LICENSE_CODE": "License code",
       "LICENSE_LICENSOR": "Vendor name",
+      "LICENSE_TERM_YEAR": "License term 'YEAR'",
       "CURRENT_YEAR": "Current year"
     },
     "METADATA_MAPPING": {

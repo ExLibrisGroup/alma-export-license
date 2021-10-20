@@ -37,6 +37,7 @@ export const CollectionPathOptions = [
   'LICENSE_NAME',
   'LICENSE_CODE',
   'LICENSE_LICENSOR',
+  'LICENSE_TERM_YEAR',
   'CURRENT_YEAR',
 ];
 
