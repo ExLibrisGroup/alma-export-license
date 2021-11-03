@@ -5,8 +5,8 @@
    "author": "Ex Libris",
    "description": "Supports the creation of an Excel spreadsheet from a license, including terms and portfolios. Supports creating new digital inventory with created file.",
    "icon": {
-      "type": "font",
-      "value": "fa fa-file-archive-o"
+      "type": "url",
+      "value": "/assets/license-export-logo.png"
    },
    "entities": [
       "LICENSE"
