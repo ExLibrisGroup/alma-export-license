@@ -8,7 +8,7 @@
     class="drag-drop-list"
     (cdkDropListDropped)="drop($event)">
     <div class="drag-drop-box" *ngFor="let option of collectionPathOptions" cdkDrag>
-      {{'SETTINGS.COLLECTION_PATH_OPTIONS.' + option | translate}}
+      {{ option | translate }}
     </div>
   </div>
 </div>
@@ -22,7 +22,7 @@
     class="drag-drop-list"
     (cdkDropListDropped)="drop($event)">
     <div class="drag-drop-box" *ngFor="let path of collectionPath.value" cdkDrag>
-      {{'SETTINGS.COLLECTION_PATH_OPTIONS.' + path | translate}}
+      {{ path | translate }}
     </div>
   </div>
 </div>

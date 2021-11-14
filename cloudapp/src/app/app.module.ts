@@ -17,6 +17,7 @@ import { SettingsComponent } from './settings/settings.component';
 import { CollectionPathComponent } from './settings/collection-path/collection-path.component';
 import { MetadataMappingComponent } from './settings/metadata-mapping/metadata-mapping.component';
 import { AddMetadataMappingDialog } from './settings/metadata-mapping/add-metadata-mapping-dialog.component';
+import { Mapi18nPipe } from './utils';
 
 @NgModule({
   declarations: [					
@@ -30,6 +31,7 @@ import { AddMetadataMappingDialog } from './settings/metadata-mapping/add-metada
     CollectionPathComponent,
     MetadataMappingComponent,
     AddMetadataMappingDialog,
+    Mapi18nPipe,
    ],
   imports: [
     MaterialModule,

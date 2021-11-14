@@ -1,93 +1,95 @@
 {
-  "CLEAR": "Clear",
-  "NEXT": "Next",
-  "BACK": "Back",
-  "SAVE": "Save",
-  "ERROR": "An unexpected error occurred.",
-  "MAIN": {
-    "NO_ENTITIES": "Navigate to license records to continue",
-    "SELECT_LICENSE": "Select a license to continue"
-  },
-  "DETAILS": {
-    "COLLECTION": "Collection",
-    "COLLECTION_PATH": "Collection path",
-    "COLLECTION_ROOT": "Root collection",
-    "DOWNLOAD": "Download Excel",
-    "DIGITAL": "Create digital"
-  },
-  "COLLECTION_PICKER": {
-    "TITLE": "Select a collection"
-  },
-  "EXCEL": {
-    "HEADERS": {
-      "TERM_NAME": "Term",
-      "TERM_VALUE": "Value",
-      "RESOURCE": "Title",
-      "RESOURCE_TYPE": "Type"
-    },
-    "TERMS": "Terms",
-    "PORTFOLIOS": "Portfolios"
-  },
-  "DIGITAL": {
-    "COMPLETE": "Complete",
-    "MESSAGE": "The license has been successfully exported and ingested into the repository (record ID {{mmsId}}).",
-    "LINK": "Go to representation",
-    "EXISTING_DIALOG": {
-      "TITLE": "Existing record found",
-      "TEXT": "A record with this title has been found. Do you wish to overwrite the record?",
-      "OK": "Yes, overwrite record",
-      "CANCEL": "No"
-    },
-    "EXISTING_ERROR": "Record already exists",
-    "PROGRESS": {
-      "SEARCH_EXISTING": "Searching for existing records",
-      "RETRIEVING_LICENSE": "Retrieving license",
-      "RETRIEVING_ATTACHMENTS": "Retrieving license attachments",
-      "UPLOADING": "Uploading files",
-      "CREATING_BIB": "Creating BIB",
-      "CREATING_COLLECTIONS": "Creating collection tree",
-      "ADD_BIB_TO_COLLECTION": "Adding BIB to Collection",
-      "CREATING_REPRESENTATION": "Creating Representation",
-      "ADDING_FILE_TO_REPRESENTATION": "Adding files to representation"
-    }
-  },
-  "SETTINGS": {
-    "TITLE": "Settings",
-    "OTHER": "Other",
-    "DIGITAL": "Digital",
-    "EXPORT": "File export",
-    "INCLUDE_INVENTORY": "Include electronic inventory",
-    "INCLUDE_ATTACHMENTS": "Include license attachments",
-    "OVERWRITE_WARNING": "Warn before overwriting",
-    "DISCARD": "Discard changes?",
-    "DISCARD_OK": "Yes, discard changes",
-    "LICENSE_TERMS": {
-      "TITLE": "License Terms",
-      "SELECTED": "Selected",
-      "ALL": "All"
-    },
-    "COLLECTION_PATH": {
-      "TITLE": "Collection Path",
-      "ROOT_COLLECTION": "Root collection",
-      "SELECT": "Select collection",
-      "FIELDS": "Fields",
-      "DESCRIPTION": "Add fields you wish to appear in the collection path. The fields will be calculated as default values and can be changed before the digital representation is created.",
-      "OPTIONS": "Options",
-      "SELECTED": "Selected"
-    },
-    "COLLECTION_PATH_OPTIONS": {
-      "LICENSE_NAME": "License name",
-      "LICENSE_CODE": "License code",
-      "LICENSE_LICENSOR": "Vendor name",
-      "LICENSE_TERM_YEAR": "License term 'YEAR'",
-      "CURRENT_YEAR": "Current year"
-    },
-    "METADATA_MAPPING": {
-      "TITLE": "Metadata Mapping",
-      "ADD": "Add Field",
-      "FIELD_NAME": "Field name",
-      "VALUE": "Value",
-      "TEXT": "Text"
-    }
-  }
+	"BACK": "Back",
+	"CANCEL": "Cancel",
+	"CLEAR": "Clear",
+	"COLLECTION_PICKER": {
+		"TITLE": "Select a collection"
+	},
+	"DETAILS": {
+		"COLLECTION": "Collection",
+		"COLLECTION_PATH": "Collection path",
+		"COLLECTION_ROOT": "Root collection",
+		"DIGITAL": "Create digital",
+		"DOWNLOAD": "Download Excel"
+	},
+	"DIGITAL": {
+		"COMPLETE": "Complete",
+		"EXISTING_DIALOG": {
+			"CANCEL": "No",
+			"OK": "Yes, overwrite record",
+			"TEXT": "A record with this title has been found. Do you wish to overwrite the record?",
+			"TITLE": "Existing record found"
+		},
+		"EXISTING_ERROR": "Record already exists",
+		"LINK": "Go to representation",
+		"MESSAGE": "The license has been successfully exported and ingested into the repository (record ID {{mmsId}}).",
+		"PROGRESS": {
+			"ADDING_FILE_TO_REPRESENTATION": "Adding files to representation",
+			"ADD_BIB_TO_COLLECTION": "Adding BIB to Collection",
+			"CREATING_BIB": "Creating BIB",
+			"CREATING_COLLECTIONS": "Creating collection tree",
+			"CREATING_REPRESENTATION": "Creating Representation",
+			"RETRIEVING_ATTACHMENTS": "Retrieving license attachments",
+			"RETRIEVING_LICENSE": "Retrieving license",
+			"SEARCH_EXISTING": "Searching for existing records",
+			"UPLOADING": "Uploading files"
+		}
+	},
+	"ERROR": "An unexpected error occurred.",
+	"EXCEL": {
+		"HEADERS": {
+			"RESOURCE": "Title",
+			"RESOURCE_TYPE": "Type",
+			"TERM_NAME": "Term",
+			"TERM_VALUE": "Value"
+		},
+		"PORTFOLIOS": "Portfolios",
+		"TERMS": "Terms"
+	},
+	"MAIN": {
+		"NO_ENTITIES": "Navigate to license records to continue",
+		"SELECT_LICENSE": "Select a license to continue"
+	},
+	"NEXT": "Next",
+	"OK": "OK",
+	"SAVE": "Save",
+	"SETTINGS": {
+		"COLLECTION_PATH": {
+			"DESCRIPTION": "Add fields you wish to appear in the collection path. The fields will be calculated as default values and can be changed before the digital representation is created.",
+			"FIELDS": "Fields",
+			"OPTIONS": "Options",
+			"ROOT_COLLECTION": "Root collection",
+			"SELECT": "Select collection",
+			"SELECTED": "Selected",
+			"TITLE": "Collection Path"
+		},
+		"COLLECTION_PATH_OPTIONS": {
+			"CURRENT_YEAR": "Current year",
+			"LICENSE_CODE": "License code",
+			"LICENSE_LICENSOR": "Vendor name",
+			"LICENSE_NAME": "License name",
+			"LICENSE_TERM_YEAR": "License term 'YEAR'"
+		},
+		"DIGITAL": "Digital",
+		"DISCARD": "Discard changes?",
+		"DISCARD_OK": "Yes, discard changes",
+		"EXPORT": "File export",
+		"INCLUDE_ATTACHMENTS": "Include license attachments",
+		"INCLUDE_INVENTORY": "Include electronic inventory",
+		"LICENSE_TERMS": {
+			"ALL": "All",
+			"SELECTED": "Selected",
+			"TITLE": "License Terms"
+		},
+		"METADATA_MAPPING": {
+			"ADD": "Add Field",
+			"FIELD_NAME": "Field name",
+			"TEXT": "Text",
+			"TITLE": "Metadata Mapping",
+			"VALUE": "Value"
+		},
+		"OTHER": "Other",
+		"OVERWRITE_WARNING": "Warn before overwriting",
+		"TITLE": "Settings"
+	}
 }

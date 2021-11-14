@@ -1,4 +1,4 @@
 <mat-progress-bar [value]="percent"></mat-progress-bar>
 <ul>
-  <li *ngFor="let step of steps; let i = index" [class.done]="i < progress">{{(translationPrefix + step) | translate}} <span class="dots">{{dots}}</span></li>
+  <li *ngFor="let step of steps; let i = index" [class.done]="i < progress">{{ step | translate}} <span class="dots">{{dots}}</span></li>
 </ul>

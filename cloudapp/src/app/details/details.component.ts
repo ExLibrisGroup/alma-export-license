@@ -6,6 +6,7 @@ import * as XLSX from 'xlsx';
 import { SettingsService } from '../services/settings.service';
 import { Settings } from '../models/settings';
 import { parseLicense } from '../models/alma';
+import { mapi18n } from '../utils';
 
 @Component({
   selector: 'app-details',
@@ -46,7 +47,7 @@ export class DetailsComponent implements OnInit {
     this.alma.getLicense(this.data.licenseCode)
     .pipe(finalize(() => this.loading = false))
     .subscribe(license => {
-      this.data.collectionPath = settings.collectionPath.map(p => parseLicense(p, license)).join('/');
+      this.data.collectionPath = settings.collectionPath.map(p => parseLicense(mapi18n(p), license)).join('/');
     })
   }
 }

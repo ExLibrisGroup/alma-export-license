@@ -11,6 +11,7 @@ import { Collection } from '../models/collection';
 import { settingsFormGroup } from '../models/settings';
 import { AlmaService } from '../services/alma.service';
 import { SettingsService } from '../services/settings.service';
+import { marker as _ } from '@biesbjerg/ngx-translate-extract-marker';
 
 @Component({
   selector: 'app-settings',
@@ -69,7 +70,7 @@ export class SettingsComponent implements OnInit {
 
   selectRootCollection() {
     const dialogData: PromptDialogData = { 
-      title: 'COLLECTION_PICKER.TITLE', 
+      title: _('COLLECTION_PICKER.TITLE'), 
       val: { id: this.form.get('rootCollectionId').value },
     }
     this.dialog.prompt(CollectionPickerDialog, dialogData)
@@ -96,8 +97,8 @@ export class SettingsGuard implements CanDeactivate<SettingsComponent> {
   canDeactivate(component: SettingsComponent): Observable<boolean> {
     if(!component.form.dirty) return of(true);
     return this.dialog.confirm({ 
-      text: 'SETTINGS.DISCARD',
-      ok: 'SETTINGS.DISCARD_OK'
+      text: _('SETTINGS.DISCARD'),
+      ok: _('SETTINGS.DISCARD_OK'),
     });
   }
 }

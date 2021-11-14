@@ -7,7 +7,6 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class ProgressTrackerComponent implements OnInit {
 
-  @Input() translationPrefix = "";
   dots: string = '';
   timer: any;
 

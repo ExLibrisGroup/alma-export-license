@@ -1,3 +1,4 @@
+import { Pipe, PipeTransform } from "@angular/core";
 
   /** Execute XPath */
   const select = (doc: Document, expression: string, options: {context?: Node, single?: boolean}={context: null, single: false}) => {
@@ -79,5 +80,16 @@
       return new File([u8arr], name, { type: mime});
   }
 
-export { select, selectSingleNode, dom, s2ab, dataToFile, selectText }
+  const mapi18n = (val: string) => {
+    return val.substr(val.lastIndexOf('.') + 1);
+  }
+
+  @Pipe({name: 'mapi18n'})
+  export class Mapi18nPipe implements PipeTransform {
+    transform(value: string): string {
+      return mapi18n(value);
+    }
+  }
+
+export { select, selectSingleNode, dom, s2ab, dataToFile, selectText, mapi18n }
 

@@ -13,6 +13,7 @@ import { DialogService } from 'eca-components';
 import { TranslateService } from '@ngx-translate/core';
 import { Settings } from '../models/settings';
 import { SettingsService } from '../services/settings.service';
+import { marker as _ } from '@biesbjerg/ngx-translate-extract-marker';
 
 const EXCEL_MIME_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
 
@@ -32,15 +33,15 @@ export class DigitalComponent implements OnInit {
   @ViewChild(ProgressTrackerComponent, { static: false }) progressTracker: ProgressTrackerComponent;
 
   steps = [
-    'RETRIEVING_LICENSE',
-    'SEARCH_EXISTING',
-    'RETRIEVING_ATTACHMENTS',
-    'UPLOADING',
-    'CREATING_COLLECTIONS',
-    'CREATING_BIB',
-    'ADD_BIB_TO_COLLECTION',
-    'CREATING_REPRESENTATION',
-    'ADDING_FILE_TO_REPRESENTATION',
+    _('DIGITAL.PROGRESS.RETRIEVING_LICENSE'),
+    _('DIGITAL.PROGRESS.SEARCH_EXISTING'),
+    _('DIGITAL.PROGRESS.RETRIEVING_ATTACHMENTS'),
+    _('DIGITAL.PROGRESS.UPLOADING'),
+    _('DIGITAL.PROGRESS.CREATING_COLLECTIONS'),
+    _('DIGITAL.PROGRESS.CREATING_BIB'),
+    _('DIGITAL.PROGRESS.ADD_BIB_TO_COLLECTION'),
+    _('DIGITAL.PROGRESS.CREATING_REPRESENTATION'),
+    _('DIGITAL.PROGRESS.ADDING_FILE_TO_REPRESENTATION'),
   ]
 
   constructor(
@@ -93,13 +94,13 @@ export class DigitalComponent implements OnInit {
   }
 
   createBib() {
-    this.progressTracker.setProgress('CREATING_BIB');
+    this.progressTracker.setProgress('DIGITAL.PROGRESS.CREATING_BIB');
     return this.alma.createOrUpdateBibFromLicense(this.license, this.mmsId, this.settings.metadata)
     .pipe(tap(bib => this.mmsId = bib.mms_id));
   }
 
   createCollectionTree() {
-    this.progressTracker.setProgress('CREATING_COLLECTIONS');
+    this.progressTracker.setProgress('DIGITAL.PROGRESS.CREATING_COLLECTIONS');
     if (!this.data.collectionPath) {
       this.data.collectionId = this.settings.rootCollectionId;
       return of(true);
@@ -109,23 +110,23 @@ export class DigitalComponent implements OnInit {
   }
 
   addBibToCollection(bib: Alma.Bib) {
-    this.progressTracker.setProgress('ADD_BIB_TO_COLLECTION');
+    this.progressTracker.setProgress('DIGITAL.PROGRESS.ADD_BIB_TO_COLLECTION');
     return this.alma.addBibToCollection(bib.mms_id, this.data.collectionId)
   }
 
   createRepresentation(bib: Alma.Bib) {
-    this.progressTracker.setProgress('CREATING_REPRESENTATION');
+    this.progressTracker.setProgress('DIGITAL.PROGRESS.CREATING_REPRESENTATION');
     return this.alma.createRepresentation(bib.mms_id);
   }
 
   addFilesToRepresentation(rep: Alma.Representation) {
-    this.progressTracker.setProgress('ADDING_FILE_TO_REPRESENTATION');
+    this.progressTracker.setProgress('DIGITAL.PROGRESS.ADDING_FILE_TO_REPRESENTATION');
     const files = this.keys.map(key => this.alma.addFileToRepresentation(rep, key));
     return concat(...files).pipe(last());
   }
 
   getLicense() {
-    this.progressTracker.setProgress('RETRIEVING_LICENSE');
+    this.progressTracker.setProgress('DIGITAL.PROGRESS.RETRIEVING_LICENSE');
     return this.alma.getLicense(this.data.licenseCode)
     .pipe(
       tap(license => this.license = license),
@@ -134,7 +135,7 @@ export class DigitalComponent implements OnInit {
 
   getAttachments() {
     if (!this.settings.includeAttachments) return of(false);
-    this.progressTracker.setProgress('RETRIEVING_ATTACHMENTS')
+    this.progressTracker.setProgress('DIGITAL.PROGRESS.RETRIEVING_ATTACHMENTS')
     return this.alma.getLicenseAttachments(this.data.licenseCode)
     .pipe(
       map(attachments => attachments.attachment.map(attachment => this.alma.getLicenseAttachment(attachment.link))),
@@ -148,7 +149,7 @@ export class DigitalComponent implements OnInit {
   }
 
   searchExisting(license: Alma.License) {
-    this.progressTracker.setProgress('SEARCH_EXISTING');
+    this.progressTracker.setProgress('DIGITAL.PROGRESS.SEARCH_EXISTING');
     let q = `alma.identifier=${license.code}`;
     return this.alma.search(q)
     .pipe(
@@ -159,10 +160,10 @@ export class DigitalComponent implements OnInit {
       }),
       switchMap(result => !!result && this.settings.overwriteWarning ?
           this.dialog.confirm({
-            title: 'DIGITAL.EXISTING_DIALOG.TITLE',
-            text: 'DIGITAL.EXISTING_DIALOG.TEXT',
-            ok: 'DIGITAL.EXISTING_DIALOG.OK',
-            cancel: 'DIGITAL.EXISTING_DIALOG.CANCEL'
+            title: _('DIGITAL.EXISTING_DIALOG.TITLE'),
+            text: _('DIGITAL.EXISTING_DIALOG.TEXT'),
+            ok: _('DIGITAL.EXISTING_DIALOG.OK'),
+            cancel: _('DIGITAL.EXISTING_DIALOG.CANCEL'),
           }) :
           of(true)
       ),
@@ -173,7 +174,7 @@ export class DigitalComponent implements OnInit {
   }
 
   upload(): Observable<string[]> {
-    this.progressTracker.setProgress('UPLOADING');
+    this.progressTracker.setProgress('DIGITAL.PROGRESS.UPLOADING');
     return this.data.buildExcel()
     .pipe(
       map(wb => {

@@ -1,4 +1,5 @@
 import { FormGroupUtil } from "@exlibris/exl-cloudapp-angular-lib";
+import { marker as _ } from '@biesbjerg/ngx-translate-extract-marker';
 
 export class Settings {
   includeAttachments: boolean = true;
@@ -34,11 +35,11 @@ export const MetadataFieldOptions = [
 ]
 
 export const CollectionPathOptions = [
-  'LICENSE_NAME',
-  'LICENSE_CODE',
-  'LICENSE_LICENSOR',
-  'LICENSE_TERM_YEAR',
-  'CURRENT_YEAR',
+  _('SETTINGS.COLLECTION_PATH_OPTIONS.LICENSE_NAME'),
+  _('SETTINGS.COLLECTION_PATH_OPTIONS.LICENSE_CODE'),
+  _('SETTINGS.COLLECTION_PATH_OPTIONS.LICENSE_LICENSOR'),
+  _('SETTINGS.COLLECTION_PATH_OPTIONS.LICENSE_TERM_YEAR'),
+  _('SETTINGS.COLLECTION_PATH_OPTIONS.CURRENT_YEAR'),
 ];
 
 export const settingsFormGroup = (settings: Settings) => FormGroupUtil.toFormGroup(settings);
