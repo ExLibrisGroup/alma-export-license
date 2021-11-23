@@ -35,8 +35,7 @@ export class SettingsComponent implements OnInit {
       this.form = settingsFormGroup(settings);
     });
     this.alma.getLicenseTerms()
-    .pipe(tap(results => this.licenseTerms = results.row.filter(r => r.enabled)))
-    .subscribe();
+    .subscribe(results => this.licenseTerms = results.row);
   }
 
   save() {
