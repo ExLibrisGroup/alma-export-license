@@ -21,6 +21,8 @@ export class AlmaService {
     private http: HttpClient,
   ) { }
 
+  libraryCode: string;
+
   getCollections() {
     return this.rest.call<Alma.Collections>('/bibs/collections?level=9').pipe(
       map(collections => {
@@ -100,6 +102,7 @@ export class AlmaService {
     return this.getCollection(parent, 2)
     .pipe(
       switchMap(collection => {
+        this.libraryCode = collection.library.value;
         const existingCollection = collection.collection && collection.collection.find(c => c.name == name);
         return !!existingCollection ? of(existingCollection) : this._createCollection(parent, name);
       })
@@ -114,7 +117,7 @@ export class AlmaService {
           pid: null,
           parent_pid: { value: parent },
           name,
-          library: { value: initData.user.currentlyAtLibCode },
+          library: { value: this.libraryCode },
         }
         return {
           method: HttpMethod.POST,
@@ -154,7 +157,7 @@ export class AlmaService {
         url: `/bibs/${mmsId}/representations`,
         method: HttpMethod.POST,
         requestBody: { 
-          library: { value: initData.user.currentlyAtLibCode },
+          library: { value: this.libraryCode },
           usage_type: { value: "PRESERVATION_MASTER" }
         }
       })),
