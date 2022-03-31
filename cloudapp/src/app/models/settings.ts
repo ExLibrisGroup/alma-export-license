@@ -32,6 +32,9 @@ export const MetadataFieldOptions = [
   'dc:language',
   'dcterms:accessRights',
   'dcterms:provenance',
+  'dc:modified',
+  'dc:date',
+  'dcterms:modified'
 ]
 
 export const CollectionPathOptions = [
@@ -40,6 +43,8 @@ export const CollectionPathOptions = [
   _('SETTINGS.COLLECTION_PATH_OPTIONS.LICENSE_LICENSOR'),
   _('SETTINGS.COLLECTION_PATH_OPTIONS.LICENSE_TERM_YEAR'),
   _('SETTINGS.COLLECTION_PATH_OPTIONS.CURRENT_YEAR'),
+  _('SETTINGS.COLLECTION_PATH_OPTIONS.CREATION_DATE'),
+  _('SETTINGS.COLLECTION_PATH_OPTIONS.UPDATE_DATE'),
 ];
 
 export const settingsFormGroup = (settings: Settings) => FormGroupUtil.toFormGroup(settings);

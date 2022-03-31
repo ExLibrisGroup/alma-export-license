@@ -30,6 +30,7 @@ export class DigitalComponent implements OnInit {
   settings: Settings;
   delivery_url: string;
   mmsId: string;
+  updated_date: Date;
   @ViewChild(ProgressTrackerComponent, { static: false }) progressTracker: ProgressTrackerComponent;
 
   steps = [
@@ -178,11 +179,13 @@ export class DigitalComponent implements OnInit {
     return this.data.buildExcel()
     .pipe(
       map(wb => {
-        const out = XLSX.write(wb, { bookType:'xlsx',  type: 'binary' });
+        const out = wb
+        console.log(wb.stream());
+        console.log(out);
         const file = new File(
-          [s2ab(out)], 
-          `${this.data.licenseCode}.xlsx`, 
-          { type: EXCEL_MIME_TYPE }
+          [wb], 
+          `${this.data.licenseCode}.tsv`, 
+          { type: "text/plain" }
         )
         this.files.push(new UploadFile(file));
       }),

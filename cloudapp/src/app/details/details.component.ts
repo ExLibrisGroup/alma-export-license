@@ -7,6 +7,7 @@ import { SettingsService } from '../services/settings.service';
 import { Settings } from '../models/settings';
 import { parseLicense } from '../models/alma';
 import { mapi18n } from '../utils';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-details',
@@ -32,12 +33,12 @@ export class DetailsComponent implements OnInit {
     });
   }
 
-  download() {
+  download(){
     this.loading = true;
     this.data.buildExcel()
     .pipe(finalize(() => this.loading = false))
     .subscribe(wb => {
-      XLSX.writeFile(wb, `${this.data.licenseCode}.xlsx`);
+      saveAs(wb, `${this.data.licenseCode}.tsv`)
     })
   }
 
@@ -46,7 +47,7 @@ export class DetailsComponent implements OnInit {
     this.loading = true;
     this.alma.getLicense(this.data.licenseCode)
     .pipe(finalize(() => this.loading = false))
-    .subscribe(license => {
+    .subscribe(license => {  
       this.data.collectionPath = settings.collectionPath.map(p => parseLicense(mapi18n(p), license)).join('/');
     })
   }

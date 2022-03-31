@@ -17,6 +17,9 @@ export namespace Alma {
     name: string;
     resource: Resource[];
     licensor: Value;
+    start_date: string;
+    creation_date: string;
+    modification_date: string;
   }
 
   export interface LicenseAttachments {
@@ -30,6 +33,7 @@ export namespace Alma {
     content: string;
     link: string;
     type: string;
+    creation_date: string
   }
 
   export interface Resource {
@@ -61,6 +65,7 @@ export namespace Alma {
   export interface Representation {
     id: string;
     link: string;
+    public_node: string;
     delivery_url: string;
     files: {
       total_record_count: number,
@@ -118,6 +123,7 @@ export const dcTemplate = `
 `
 
 export const parseLicense = (code: string, license: Alma.License): string => {
+
   switch (code) {
     case 'LICENSE_NAME':
       return license.name;
@@ -130,6 +136,10 @@ export const parseLicense = (code: string, license: Alma.License): string => {
       return term ? term.value.value : '0000';
     case 'CURRENT_YEAR':
       return new Date().getFullYear().toString();
+    case 'CREATION_DATE':
+      return new Date(license.creation_date).toLocaleDateString();
+    case 'UPDATE_DATE':
+      return new Date(license.modification_date).toLocaleDateString();   
     default:
       return '';
   }

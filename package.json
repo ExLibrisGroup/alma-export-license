@@ -24,6 +24,7 @@
     "@ngx-translate/core": "~13.0.0",
     "crypto-es": "^1.2.7",
     "eca-components": "^1.4.0",
+    "file-saver": "^2.0.5",
     "lodash": "~4.17.21",
     "rxjs": "~6.5.5",
     "xlsx": "^0.17.0",

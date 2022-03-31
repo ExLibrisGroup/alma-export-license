@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CloudAppEventsService, CloudAppRestService, HttpMethod, InitData } from '@exlibris/exl-cloudapp-angular-lib';
-import { catchError, defaultIfEmpty, expand, map, switchMap, last } from 'rxjs/operators';
+import { catchError, defaultIfEmpty, expand, map, switchMap, last, tap } from 'rxjs/operators';
 import { Collection } from '../models/collection';
 import { Alma, dcTemplate, parseError, parseLicense, sortCodeTable, templateNamespaces } from '../models/alma';
 import { EMPTY, forkJoin, Observable, of, throwError } from 'rxjs';
@@ -22,6 +22,7 @@ export class AlmaService {
   ) { }
 
   libraryCode: string;
+  updated_date: Date;
 
   getCollections() {
     return this.rest.call<Alma.Collections>('/bibs/collections?level=9').pipe(
@@ -42,7 +43,11 @@ export class AlmaService {
   }
 
   getLicense(code: string) {
-    return this.rest.call<Alma.License>(`/acq/licenses/${code}`)
+    return this.rest.call<Alma.License>(`/acq/licenses/${code}`).pipe(tap(license => {
+      this.getLicenseAttachments(license.code).subscribe(attachments => {
+        this.updated_date = new Date(license.modification_date);
+      });
+    }))
   }
 
   getLicenseAttachments(code: string) {
@@ -61,6 +66,7 @@ export class AlmaService {
   createOrUpdateBibFromLicense(license: Alma.License, mmsId: string, fields: MetadataField[]) {
     const doc = new DOMParser().parseFromString(dcTemplate, "application/xml");
     let record = selectSingleNode(doc, `/bib/record`);
+    
     fields.forEach(f => dom(
       f.field, 
       { 
@@ -158,7 +164,8 @@ export class AlmaService {
         method: HttpMethod.POST,
         requestBody: { 
           library: { value: this.libraryCode },
-          usage_type: { value: "PRESERVATION_MASTER" }
+          usage_type: { value: "PRESERVATION_MASTER" },
+          public_note: this.updated_date.toLocaleDateString()
         }
       })),
     )

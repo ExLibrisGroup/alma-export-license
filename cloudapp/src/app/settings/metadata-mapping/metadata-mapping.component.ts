@@ -30,7 +30,7 @@ export class MetadataMappingComponent implements OnInit {
       if (!field) return;
       if (field.field && field.value) {
         this.metadata.push(FormGroupUtil.toFormGroup(field));
-        this.metadata.markAsDirty();
+        this.metadata.markAsDirty();  
       }
     })
   }

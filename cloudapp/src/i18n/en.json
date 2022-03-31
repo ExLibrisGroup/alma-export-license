@@ -10,7 +10,7 @@
 		"COLLECTION_PATH": "Collection path",
 		"COLLECTION_ROOT": "Root collection",
 		"DIGITAL": "Create digital",
-		"DOWNLOAD": "Download Excel"
+		"DOWNLOAD": "Download tsv"
 	},
 	"DIGITAL": {
 		"COMPLETE": "Complete",
@@ -68,7 +68,9 @@
 			"LICENSE_CODE": "License code",
 			"LICENSE_LICENSOR": "Vendor name",
 			"LICENSE_NAME": "License name",
-			"LICENSE_TERM_YEAR": "License term 'YEAR'"
+			"LICENSE_TERM_YEAR": "License term 'YEAR'",
+			"CREATION_DATE": "Creation Date",
+			"UPDATE_DATE": "Update Date"
 		},
 		"DIGITAL": "Digital",
 		"DISCARD": "Discard changes?",
