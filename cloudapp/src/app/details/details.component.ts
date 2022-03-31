@@ -7,7 +7,7 @@ import { SettingsService } from '../services/settings.service';
 import { Settings } from '../models/settings';
 import { parseLicense } from '../models/alma';
 import { mapi18n } from '../utils';
-import { saveAs } from 'file-saver';
+import { saveAs } from '../../../../node_modules/file-saver/src/FileSaver';
 
 @Component({
   selector: 'app-details',
