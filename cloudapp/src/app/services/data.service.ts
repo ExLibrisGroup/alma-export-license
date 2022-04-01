@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import * as XLSX from 'xlsx';
 import { SettingsService } from './settings.service';
 import { map } from 'rxjs/operators';
 import { forkJoin } from 'rxjs';
@@ -22,7 +21,7 @@ export class DataService {
     private alma: AlmaService,
   ) { }
 
-  buildExcel() {
+  buildTsv() {
     return forkJoin([
       this.settings.get(),
       this.alma.getLicense(this.licenseCode)
@@ -30,9 +29,7 @@ export class DataService {
     .pipe(
       map(results => {
         const [ settings, license ] = results;
-        /* generate workbook */
-        const wb: XLSX.WorkBook = XLSX.utils.book_new();
-      
+
         /* convert terms */
         if (settings.licenseTerms != 'all') {
           license.term = license.term.filter(t => settings.licenseTerms.includes(t.code.value))

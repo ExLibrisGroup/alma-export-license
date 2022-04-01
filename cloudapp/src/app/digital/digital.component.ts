@@ -176,12 +176,9 @@ export class DigitalComponent implements OnInit {
 
   upload(): Observable<string[]> {
     this.progressTracker.setProgress('DIGITAL.PROGRESS.UPLOADING');
-    return this.data.buildExcel()
+    return this.data.buildTsv()
     .pipe(
       map(wb => {
-        const out = wb
-        console.log(wb.stream());
-        console.log(out);
         const file = new File(
           [wb], 
           `${this.data.licenseCode}.tsv`, 

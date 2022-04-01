@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { finalize } from 'rxjs/operators';
 import { AlmaService } from '../services/alma.service';
 import { DataService } from '../services/data.service';
-import * as XLSX from 'xlsx';
 import { SettingsService } from '../services/settings.service';
 import { Settings } from '../models/settings';
 import { parseLicense } from '../models/alma';
@@ -35,7 +34,7 @@ export class DetailsComponent implements OnInit {
 
   download(){
     this.loading = true;
-    this.data.buildExcel()
+    this.data.buildTsv()
     .pipe(finalize(() => this.loading = false))
     .subscribe(wb => {
       saveAs(wb, `${this.data.licenseCode}.tsv`)
