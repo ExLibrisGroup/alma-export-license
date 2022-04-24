@@ -70,7 +70,8 @@
 			"LICENSE_NAME": "License name",
 			"LICENSE_TERM_YEAR": "License term 'YEAR'",
 			"CREATION_DATE": "Creation Date",
-			"UPDATE_DATE": "Update Date"
+			"UPDATE_DATE": "Update Date",
+			"LICENSE_TERM_DESCRIPTION": "License term 'DESCRIPTION'"
 		},
 		"DIGITAL": "Digital",
 		"DISCARD": "Discard changes?",

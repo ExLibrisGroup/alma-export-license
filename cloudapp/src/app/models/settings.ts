@@ -45,6 +45,7 @@ export const CollectionPathOptions = [
   _('SETTINGS.COLLECTION_PATH_OPTIONS.CURRENT_YEAR'),
   _('SETTINGS.COLLECTION_PATH_OPTIONS.CREATION_DATE'),
   _('SETTINGS.COLLECTION_PATH_OPTIONS.UPDATE_DATE'),
+  _('SETTINGS.COLLECTION_PATH_OPTIONS.LICENSE_TERM_DESCRIPTION'),
 ];
 
 export const settingsFormGroup = (settings: Settings) => FormGroupUtil.toFormGroup(settings);
