@@ -136,10 +136,10 @@ export const parseLicense = (code: string, license: Alma.License): string => {
       return term ? term.value.value : '0000';
     case 'CURRENT_YEAR':
       return new Date().getFullYear().toString();
-    case 'CREATION_DATE':
-      return new Date(license.creation_date).toLocaleDateString();
+    case 'CREATION_DATE': 
+      return new Date(license.creation_date).toLocaleDateString('zh-Hans-CN');
     case 'UPDATE_DATE':
-      return new Date(license.modification_date).toLocaleDateString();
+      return new Date(license.modification_date).toLocaleDateString('zh-Hans-CN');
     case 'LICENSE_TERM_DESCRIPTION': 
       const termD = license.term.find(t => t.code.value == 'Description');
       return termD ? termD.value.value : '';     
