@@ -43,7 +43,7 @@ export class AlmaService {
   }
 
   getLicense(code: string) {
-    return this.rest.call<Alma.License>(`/acq/licenses/${code}`).pipe(tap(license => {
+    return this.rest.call<Alma.License>(`/acq/licenses/${code}?include_blank_terms=true`).pipe(tap(license => {
       this.getLicenseAttachments(license.code).subscribe(attachments => {
         this.updated_date = new Date(license.modification_date);
       });
