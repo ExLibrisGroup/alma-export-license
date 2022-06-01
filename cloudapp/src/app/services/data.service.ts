@@ -29,7 +29,8 @@ export class DataService {
     .pipe(
       map(results => {
         const [ settings, license ] = results;
-
+        console.log(license.term);
+        
         /* convert terms */
         if (settings.licenseTerms != 'all') {
           license.term = license.term.filter(t => settings.licenseTerms.includes(t.code.value))
@@ -39,23 +40,23 @@ export class DataService {
         let str = this.translate.instant('EXCEL.HEADERS.TERM_NAME') + '\t' + this.translate.instant('EXCEL.HEADERS.TERM_VALUE') + "\n";
         for(let row of terms){
           for(let column of row){
-            str += column + "\t";
+            str += (column ? column : "N/A") + "\t";
           }
           str += "\n";  
         }
 
         /* Convert portfolios */
-        if (settings.includeInventory) {
-          str += "_________________________________________________________\n\n";
-          const resources = license.resource.map(resource => [resource.name, resource.type.desc]);
-          str += this.translate.instant('EXCEL.HEADERS.RESOURCE') + '\t' + this.translate.instant('EXCEL.HEADERS.RESOURCE_TYPE') + "\n";
-          for(let row of resources){
-            for(let column of row){
-              str += column + "\t";
-            }
-            str += "\n";  
-          }
-        }
+        // if (settings.includeInventory) {
+        //   str += "_________________________________________________________\n\n";
+        //   const resources = license.resource.map(resource => [resource.name, resource.type.desc]);
+        //   str += this.translate.instant('EXCEL.HEADERS.RESOURCE') + '\t' + this.translate.instant('EXCEL.HEADERS.RESOURCE_TYPE') + "\n";
+        //   for(let row of resources){
+        //     for(let column of row){
+        //       str += column + "\t";
+        //     }
+        //     str += "\n";  
+        //   }
+        // }
 
         let file = new Blob([str], { type: 'tsv;charset=utf-8'})
         return file;
