@@ -32,7 +32,6 @@ export const MetadataFieldOptions = [
   'dc:language',
   'dcterms:accessRights',
   'dcterms:provenance',
-  'dc:modified',
   'dc:date',
   'dcterms:modified'
 ]
