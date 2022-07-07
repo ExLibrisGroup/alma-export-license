@@ -124,6 +124,9 @@ export const dcTemplate = `
 
 export const parseLicense = (code: string, license: Alma.License): string => {
 
+  console.log(code);
+  
+
   switch (code) {
     case 'LICENSE_NAME':
       return license.name;
@@ -137,9 +140,9 @@ export const parseLicense = (code: string, license: Alma.License): string => {
     case 'CURRENT_YEAR':
       return new Date().getFullYear().toString();
     case 'CREATION_DATE': 
-      return new Date(license.creation_date).toLocaleDateString('zh-Hans-CN');
+      return license.creation_date.substring(0, license.creation_date.length - 1);
     case 'UPDATE_DATE':
-      return new Date(license.modification_date).toLocaleDateString('zh-Hans-CN');
+      return license.modification_date.substring(0, license.modification_date.length - 1);
     case 'LICENSE_TERM_DESCRIPTION': 
       const termD = license.term.find(t => t.code.value == 'Description');
       return termD ? termD.value.value : '';     

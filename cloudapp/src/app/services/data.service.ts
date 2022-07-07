@@ -42,6 +42,7 @@ export class DataService {
           for(let column of row){
             str += (column ? column : "N/A") + "\t";
           }
+          str = str.substring(0, str.length - 1); // To remove tab at end of the line
           str += "\n";  
         }
 
