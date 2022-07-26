@@ -135,7 +135,7 @@ export const parseLicense = (code: string, license: Alma.License): string => {
     case 'LICENSE_LICENSOR':
       return license.licensor.desc;
     case 'LICENSE_TERM_YEAR':
-      const term = license.term.find(t => t.code.value == 'Target Year');
+      const term = license.term.find(t => t.code.value == 'YEAR');
       return term ? term.value.value : '0000';
     case 'CURRENT_YEAR':
       return new Date().getFullYear().toString();
