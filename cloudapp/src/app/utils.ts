@@ -41,12 +41,21 @@ import { Pipe, PipeTransform } from "@angular/core";
     let element = document.createElementNS(ns, name);
     
     if (options.parent) options.parent.appendChild(element);
-    if (options.text) element.innerHTML = options.text;
+    if (options.text) element.innerHTML = escapeXml(options.text);
     if (options.className) element.className = options.className;
     if (options.id) element.id = options.id;
     if (options.attributes) options.attributes.forEach(([att, val]) => element.setAttribute(att, val));
 
     return element;  
+  };
+
+  const escapeXml = (str: string): string =>{
+    return str
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
   };
 
   /**
