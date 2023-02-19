@@ -47,7 +47,7 @@ export class DetailsComponent implements OnInit {
     this.alma.getLicense(this.data.licenseCode)
     .pipe(finalize(() => this.loading = false))
     .subscribe(license => {  
-      this.data.collectionPath = settings.collectionPath.map(p => parseLicense(mapi18n(p), license)).join('/');
+      this.data.collectionPath = settings.collectionPath.map(p => parseLicense(mapi18n(p), license)).join('>');
     })
   }
 }

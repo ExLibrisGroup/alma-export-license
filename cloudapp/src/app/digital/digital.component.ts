@@ -106,7 +106,7 @@ export class DigitalComponent implements OnInit {
       this.data.collectionId = this.settings.rootCollectionId;
       return of(true);
     }
-    return this.alma.createCollectionTree(this.settings.rootCollectionId, this.data.collectionPath.split('/'))
+    return this.alma.createCollectionTree(this.settings.rootCollectionId, this.data.collectionPath.split('>'))
     .pipe(tap(collection => this.data.collectionId = collection.pid.value));
   }
 
